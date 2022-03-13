@@ -1,15 +1,16 @@
 const express = require("express");
-const bodyParser = require("body-parser");
 const mysql = require("mysql");
-
+const cors = require("cors");
 const app = express();
-const port = 3000;
+
+app.use(cors());
+app.use(express.json());
 
 const db = mysql.createConnection({
   host: "localhost",
-  user: "your_mysql_user",
-  password: "your_mysql_password",
-  database: "your_database_name",
+  user: "atlas_user",
+  password: "RiceandBeans",
+  database: "atlas",
 });
 
 db.connect((err) => {
@@ -20,26 +21,30 @@ db.connect((err) => {
   console.log("Connected to MySQL");
 });
 
-app.use(bodyParser.json());
-
-app.post("/api/merchant/register", (req, res) => {
+app.post("/register", (req, res) => {
   const { name, email, password } = req.body;
 
-  const query =
-    "INSERT INTO merchants (name, email, password) VALUES (?, ?, ?)";
-  db.query(query, [name, email, hashedPassword], (err, results) => {
-    if (err) {
-      console.error("Error registering merchant: " + err);
-      res
-        .status(500)
-        .json({ error: "An error occurred while registering the merchant" });
-      return;
-    }
+  db.query(
+    "INSERT INTO merchants (name, email, password) VALUES (?, ?, ?)",
+    [name, email, password],
+    (err, results) => {
+      if (err) {
+        console.error("Error registering merchant: " + err);
+        res
+          .status(500)
+          .json({ error: "An error occurred while registering the merchant" });
+        return;
+      }
 
-    res.status(201).json({ message: "Merchant registered successfully" });
-  });
+      res.status(201).json({ message: "Merchant registered successfully" });
+    }
+  );
 });
 
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+app.get("/register", (req, res) => {
+  res.status(200).json({ message: "This is a GET request to /register" });
+});
+
+app.listen(3000, () => {
+  console.log(`Server is running on port 3000`);
 });

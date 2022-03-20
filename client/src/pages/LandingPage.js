@@ -1,5 +1,6 @@
 import React from "react";
 import RegistrationForm from "../components/RegistrationForm";
+import "../styles/LandingPage.css";
 
 const LandingPage = () => {
   return (

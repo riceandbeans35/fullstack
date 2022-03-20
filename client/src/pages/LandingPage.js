@@ -6,9 +6,7 @@ const LandingPage = () => {
     <div className="landing-page">
       <section className="hero">
         <div className="hero-content">
-          <h1>
-            Welcome to Atlas, the E-Commerce platform for grocery seamlesstores
-          </h1>
+          <h1>Welcome to Atlas, the E-Commerce platform for grocery stores</h1>
           <p>Your one-stop shop for fresh groceries</p>
         </div>
       </section>
@@ -25,12 +23,15 @@ const LandingPage = () => {
           <p>
             Our dedicated team is here to provide you with the best shopping
             experience.
-            <RegistrationForm />
           </p>
+          <RegistrationForm />
         </div>
       </section>
       <footer>
         <div className="footer-links">
+          <a href="/storelists" style={{ marginRight: "10px" }}>
+            View Stores
+          </a>
           <a href="/aboutus" style={{ marginRight: "10px" }}>
             About Us
           </a>

@@ -5,12 +5,14 @@ function RegistrationForm() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [store, setStore] = useState("");
 
   const sendMerchantDataToServer = () => {
     const data = {
       name: name,
       email: email,
       password: password,
+      store: store,
     };
 
     Axios.post("http://localhost:3000/register", data)
@@ -42,6 +44,12 @@ function RegistrationForm() {
         placeholder="Password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
+      />
+      <input
+        type="text"
+        placeholder="Store Name"
+        value={store}
+        onChange={(e) => setStore(e.target.value)}
       />
       <button
         onClick={() => {

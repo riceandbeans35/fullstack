@@ -7,7 +7,7 @@ const MerchantDashboard = () => {
       <h2>Merchant Dashboard</h2>
       <ul>
         <li>
-          <Link to="/merchant/inventory">Inventory</Link>
+          <Link to="/inventory">Inventory</Link>
         </li>
       </ul>
     </div>

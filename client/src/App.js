@@ -4,7 +4,7 @@ import AboutUs from "./pages/AboutUs";
 import Contact from "./pages/Contact";
 import StoreList from "./customerpages/StoreList";
 import SelectedStore from "./customerpages/SelectedStore";
-import MerchantDashboard from "./merchantpages/MerchantDashboard.js";
+import MerchantDashboard from "./merchantpages/MerchantDashboard";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 function App() {
@@ -19,7 +19,7 @@ function App() {
           <Route path="/storelists" exact element={<StoreList />} />
           <Route path="/selectedstore" exact element={<SelectedStore />} />
           <Route
-            path="/merchantdashboard"
+            path="/merchantdashboard/:id"
             exact
             element={<MerchantDashboard />}
           />

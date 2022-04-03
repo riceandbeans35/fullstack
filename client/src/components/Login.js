@@ -17,7 +17,8 @@ const Login = ({ onLogin }) => {
     Axios.post("http://localhost:3001/login", data)
       .then((response) => {
         if (response.data.success) {
-          navigate("/merchantdashboard");
+          const merchantId = response.data.merchant.id;
+          navigate(`/merchantdashboard/${merchantId}`);
           console.log("Login Successful");
         } else {
           console.log("Login failed:", response.data.error);

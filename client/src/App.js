@@ -4,6 +4,7 @@ import AboutUs from "./pages/AboutUs";
 import Contact from "./pages/Contact";
 import StoreList from "./customerpages/StoreList";
 import SelectedStore from "./customerpages/SelectedStore";
+import MerchantDashboard from "./merchantpages/MerchantDashboard.js";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 function App() {
@@ -17,6 +18,11 @@ function App() {
           <Route path="/inventory" exact element={<Inventory />} />
           <Route path="/storelists" exact element={<StoreList />} />
           <Route path="/selectedstore" exact element={<SelectedStore />} />
+          <Route
+            path="/merchantdashboard"
+            exact
+            element={<MerchantDashboard />}
+          />
         </Routes>
       </Router>
     </div>

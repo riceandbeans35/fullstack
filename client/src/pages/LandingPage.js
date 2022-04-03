@@ -1,5 +1,6 @@
 import React from "react";
 import RegistrationForm from "../components/RegistrationForm";
+import Login from "../components/Login";
 import "../styles/LandingPage.css";
 
 const LandingPage = () => {
@@ -26,6 +27,7 @@ const LandingPage = () => {
             experience.
           </p>
           <RegistrationForm />
+          <Login />
         </div>
       </section>
       <footer>

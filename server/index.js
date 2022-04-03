@@ -76,6 +76,33 @@ app.get("/storelist", (req, res) => {
   });
 });
 
+app.post("/login", (req, res) => {
+  const { email, password } = req.body;
+
+  db.query(
+    "SELECT * FROM merchants WHERE email = ? AND password = ?",
+    [email, password],
+    (err, results) => {
+      if (err) {
+        console.error("Error during login:", err);
+        return res
+          .status(500)
+          .json({ success: false, error: "An error occurred during login." });
+      }
+
+      if (results.length === 1) {
+        const merchant = results[0];
+        return res.json({ success: true, merchant });
+      } else {
+        return res.json({
+          success: false,
+          error: "Invalid email or password.",
+        });
+      }
+    }
+  );
+});
+
 app.listen(3001, () => {
   console.log(`Server is running on port 3001`);
 });

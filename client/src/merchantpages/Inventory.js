@@ -1,27 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
+import Axios from "axios";
 
-const Inventory = ({ merchantId }) => {
-  const initialInventory = [
-    {
-      id: 1,
-      name: "Apple",
-      price: 2.99,
-      quantity: 50,
-    },
-    {
-      id: 2,
-      name: "Orange",
-      price: 1.99,
-      quantity: 30,
-    },
-  ];
-
-  const [inventory, setInventory] = useState(initialInventory);
+const Inventory = () => {
+  const [inventory, setInventory] = useState([]);
   const [editableItemId, setEditableItemId] = useState(null);
   const [editedItemName, setEditedItemName] = useState("");
   const [editedItemPrice, setEditedItemPrice] = useState(0);
   const [editedItemQuantity, setEditedItemQuantity] = useState(0);
+
+  // Function to fetch inventory data
+  const fetchInventoryData = () => {
+    Axios.get("http://localhost:3001/inventory")
+      .then((response) => {
+        setInventory(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching inventory data:", error);
+      });
+  };
+
+  useEffect(() => {
+    fetchInventoryData(); // Fetch inventory data on component mount
+  }, []);
 
   const handleEditItem = (itemId, itemName, itemPrice, itemQuantity) => {
     setEditableItemId(itemId);
@@ -32,12 +33,12 @@ const Inventory = ({ merchantId }) => {
 
   const handleSaveItem = (itemId) => {
     const updatedInventory = inventory.map((item) =>
-      item.id === itemId
+      item.inventory_id === itemId
         ? {
             ...item,
-            name: editedItemName,
-            price: editedItemPrice,
-            quantity: editedItemQuantity,
+            item_name: editedItemName,
+            item_price: editedItemPrice,
+            item_quantity: editedItemQuantity,
           }
         : item
     );
@@ -50,25 +51,22 @@ const Inventory = ({ merchantId }) => {
   };
 
   const handleAddItem = () => {
-    // Generate a unique ID for the new item (you can use a library like uuid)
     const newItemId = uuidv4();
 
-    // Create a new item with default values
     const newItem = {
-      id: newItemId,
-      name: "New Item",
-      price: 0.0,
-      quantity: 0,
-      imageUrl: "default.jpeg", // You can set a default image URL
+      inventory_id: newItemId, // Use inventory_id as the unique key
+      item_name: "New Item",
+      item_price: 0.0,
+      item_quantity: 0,
     };
 
-    // Add the new item to the inventory
     setInventory([...inventory, newItem]);
   };
 
   const handleRemoveItem = (itemId) => {
-    // Filter out the item to be removed
-    const updatedInventory = inventory.filter((item) => item.id !== itemId);
+    const updatedInventory = inventory.filter(
+      (item) => item.inventory_id !== itemId
+    );
     setInventory(updatedInventory);
   };
 
@@ -86,45 +84,47 @@ const Inventory = ({ merchantId }) => {
         </thead>
         <tbody>
           {inventory.map((item) => (
-            <tr key={item.id}>
+            <tr key={item.inventory_id}>
               <td>
-                {editableItemId === item.id ? (
+                {editableItemId === item.inventory_id ? (
                   <input
                     type="text"
                     value={editedItemName}
                     onChange={(e) => setEditedItemName(e.target.value)}
                   />
                 ) : (
-                  item.name
+                  item.item_name
                 )}
               </td>
               <td>
-                {editableItemId === item.id ? (
+                {editableItemId === item.inventory_id ? (
                   <input
                     type="number"
                     step="0.01"
                     value={editedItemPrice}
                     onChange={(e) => setEditedItemPrice(+e.target.value)}
                   />
+                ) : item && typeof item.item_price === "number" ? (
+                  `$${item.item_price.toFixed(2)}`
                 ) : (
-                  `$${item.price.toFixed(2)}`
+                  ""
                 )}
               </td>
               <td>
-                {editableItemId === item.id ? (
+                {editableItemId === item.inventory_id ? (
                   <input
                     type="number"
                     value={editedItemQuantity}
                     onChange={(e) => setEditedItemQuantity(+e.target.value)}
                   />
                 ) : (
-                  item.quantity
+                  item.item_quantity
                 )}
               </td>
               <td>
-                {editableItemId === item.id ? (
+                {editableItemId === item.inventory_id ? (
                   <>
-                    <button onClick={() => handleSaveItem(item.id)}>
+                    <button onClick={() => handleSaveItem(item.inventory_id)}>
                       Save
                     </button>
                     <button onClick={handleCancelEdit}>Cancel</button>
@@ -134,16 +134,16 @@ const Inventory = ({ merchantId }) => {
                     <button
                       onClick={() =>
                         handleEditItem(
-                          item.id,
-                          item.name,
-                          item.price,
-                          item.quantity
+                          item.inventory_id,
+                          item.item_name,
+                          item.item_price,
+                          item.item_quantity
                         )
                       }
                     >
                       Edit
                     </button>
-                    <button onClick={() => handleRemoveItem(item.id)}>
+                    <button onClick={() => handleRemoveItem(item.inventory_id)}>
                       Remove
                     </button>
                   </>

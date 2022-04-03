@@ -15,7 +15,7 @@ function RegistrationForm() {
       store: store,
     };
 
-    Axios.post("http://localhost:3000/register", data)
+    Axios.post("http://localhost:3001/register", data)
       .then((response) => {
         console.log(response.data);
       })

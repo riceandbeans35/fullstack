@@ -36,27 +36,41 @@ app.post("/register", (req, res) => {
         return;
       }
 
-      res.status(201).json({ message: "Merchant registered successfully" });
-    }
-  );
-});
+      const merchantId = results.insertId;
 
-app.post("/createstore", (req, res) => {
-  const { merchant_id, item_name, item_price, item_quantity } = req.body;
+      const initialInventory = [
+        {
+          name: "Apple",
+          price: 2.99,
+          quantity: 50,
+          merchant_id: merchantId,
+        },
+        {
+          name: "Orange",
+          price: 1.99,
+          quantity: 30,
+          merchant_id: merchantId,
+        },
+      ];
 
-  db.query(
-    "INSERT INTO merchantstores (merchant_id, item_name, item_price, item_quantity) VALUES (?, ?, ?, ?)",
-    [merchant_id, item_name, item_price, item_quantity],
-    (err, results) => {
-      if (err) {
-        console.error("Error posting merchant items: " + err);
-        res
-          .status(500)
-          .json({ error: "An error occurred while posting merchant items" });
-        return;
-      }
+      db.query(
+        "INSERT INTO inventory (item_name, item_price, item_quantity, merchant_id) VALUES ?",
+        [
+          initialInventory.map((item) => [
+            item.name,
+            item.price,
+            item.quantity,
+            item.merchant_id,
+          ]),
+        ],
+        (err, results) => {
+          if (err) {
+            console.error("Error adding initial inventory items: " + err);
+          }
 
-      res.status(201).json({ message: "Merchant items posted successfully" });
+          res.status(201).json({ message: "Merchant registered successfully" });
+        }
+      );
     }
   );
 });
@@ -101,6 +115,20 @@ app.post("/login", (req, res) => {
       }
     }
   );
+});
+
+app.get("/inventory", (req, res) => {
+  db.query("SELECT * FROM inventory", (err, results) => {
+    if (err) {
+      console.error("Error fetching inventory items:", err);
+      res
+        .status(500)
+        .json({ error: "An error occurred while fetching inventory items" });
+      return;
+    }
+
+    res.status(200).json(results);
+  });
 });
 
 app.listen(3001, () => {

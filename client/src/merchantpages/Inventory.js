@@ -9,7 +9,6 @@ const Inventory = () => {
   const [editedItemPrice, setEditedItemPrice] = useState(0);
   const [editedItemQuantity, setEditedItemQuantity] = useState(0);
 
-  // Function to fetch inventory data
   const fetchInventoryData = () => {
     Axios.get("http://localhost:3001/inventory")
       .then((response) => {
@@ -21,7 +20,7 @@ const Inventory = () => {
   };
 
   useEffect(() => {
-    fetchInventoryData(); // Fetch inventory data on component mount
+    fetchInventoryData();
   }, []);
 
   const handleEditItem = (itemId, itemName, itemPrice, itemQuantity) => {
@@ -54,7 +53,7 @@ const Inventory = () => {
     const newItemId = uuidv4();
 
     const newItem = {
-      inventory_id: newItemId, // Use inventory_id as the unique key
+      inventory_id: newItemId,
       item_name: "New Item",
       item_price: 0.0,
       item_quantity: 0,

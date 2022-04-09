@@ -146,7 +146,7 @@ app.post("/inventory", (req, res) => {
   const { item_name, item_price, item_quantity, merchant_id } = req.body;
 
   db.query(
-    "INSERT INTO inventory (item_name, item_price, item_quantity, merchant_id) VALUES ?",
+    "INSERT INTO inventory (item_name, item_price, item_quantity, merchant_id) VALUES (?, ?, ?, ?)",
     [item_name, item_price, item_quantity, merchant_id],
     (err, results) => {
       if (err) {

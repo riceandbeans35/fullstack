@@ -53,7 +53,7 @@ const Inventory = () => {
 
   const handleAddItem = () => {
     const newItem = {
-      merchant_id: merchantId,
+      merchant_id: id,
       item_name: "New Item",
       item_price: 0.0,
       item_quantity: 0,

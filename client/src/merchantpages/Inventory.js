@@ -33,18 +33,23 @@ const Inventory = () => {
   };
 
   const handleSaveItem = (itemId) => {
-    const updatedInventory = inventory.map((item) =>
-      item.inventory_id === itemId
-        ? {
-            ...item,
-            item_name: editedItemName,
-            item_price: editedItemPrice,
-            item_quantity: editedItemQuantity,
-          }
-        : item
-    );
-    setInventory(updatedInventory);
-    setEditableItemId(null);
+    const updatedItemData = {
+      item_name: editedItemName,
+      item_price: editedItemPrice,
+      item_quantity: editedItemQuantity,
+    };
+
+    Axios.put(`http://localhost:3001/inventory/${itemId}`, updatedItemData)
+      .then((response) => {
+        const updatedInventory = inventory.map((item) =>
+          item.inventory_id === itemId ? { ...item, ...updatedItemData } : item
+        );
+        setInventory(updatedInventory);
+        setEditableItemId(null);
+      })
+      .catch((error) => {
+        console.error("Error updating item:", error);
+      });
   };
 
   const handleCancelEdit = () => {
@@ -69,10 +74,16 @@ const Inventory = () => {
   };
 
   const handleRemoveItem = (itemId) => {
-    const updatedInventory = inventory.filter(
-      (item) => item.inventory_id !== itemId
-    );
-    setInventory(updatedInventory);
+    Axios.delete(`http://localhost:3001/inventory/${itemId}`)
+      .then((response) => {
+        const updatedInventory = inventory.filter(
+          (item) => item.inventory_id !== itemId
+        );
+        setInventory(updatedInventory);
+      })
+      .catch((error) => {
+        console.error("Error removing item:", error);
+      });
   };
 
   return (

@@ -126,7 +126,7 @@ app.get("/inventory/:id", (req, res) => {
   }
 
   db.query(
-    "SELECT item_name, item_price, item_quantity FROM inventory WHERE merchant_id = ?",
+    "SELECT inventory_id, item_name, item_price, item_quantity FROM inventory WHERE merchant_id = ?",
     [merchant],
     (err, results) => {
       if (err) {
@@ -154,6 +154,45 @@ app.post("/inventory", (req, res) => {
       }
 
       res.status(201).json({ message: "Added inventory successfully" });
+    }
+  );
+});
+
+app.delete("/inventory/:inventory_id", (req, res) => {
+  const itemId = req.params.inventory_id;
+
+  db.query(
+    "DELETE FROM inventory WHERE inventory_id = ?",
+    [itemId],
+    (err, results) => {
+      if (err) {
+        console.error("Error removing item:", err);
+        res
+          .status(500)
+          .json({ error: "An error occurred while removing the item" });
+      } else {
+        res.status(200).json({ message: "Item removed successfully" });
+      }
+    }
+  );
+});
+
+app.put("/inventory/:inventory_id", (req, res) => {
+  const itemId = req.params.inventory_id;
+  const updatedItemData = req.body;
+
+  db.query(
+    "UPDATE inventory SET ? WHERE inventory_id = ?",
+    [updatedItemData, itemId],
+    (err, results) => {
+      if (err) {
+        console.error("Error updating item:", err);
+        res
+          .status(500)
+          .json({ error: "An error occurred while updating the item" });
+      } else {
+        res.status(200).json({ message: "Item updated successfully" });
+      }
     }
   );
 });

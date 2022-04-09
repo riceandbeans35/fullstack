@@ -1,27 +1,29 @@
 import React, { useState, useEffect } from "react";
-import { v4 as uuidv4 } from "uuid";
+import { useParams } from "react-router-dom";
 import Axios from "axios";
 
 const Inventory = () => {
   const [inventory, setInventory] = useState([]);
+  const [merchantId, setMerchantId] = useState(null);
+  const { id } = useParams();
   const [editableItemId, setEditableItemId] = useState(null);
   const [editedItemName, setEditedItemName] = useState("");
   const [editedItemPrice, setEditedItemPrice] = useState(0);
   const [editedItemQuantity, setEditedItemQuantity] = useState(0);
 
-  const fetchInventoryData = () => {
-    Axios.get("http://localhost:3001/inventory")
-      .then((response) => {
-        setInventory(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching inventory data:", error);
-      });
+  const fetchInventoryData = async () => {
+    try {
+      const response = await Axios.get(`http://localhost:3001/inventory/${id}`);
+      setInventory(response.data);
+    } catch (error) {
+      console.error("Error fetching inventory data:", error);
+    }
   };
 
   useEffect(() => {
     fetchInventoryData();
-  }, []);
+    console.log(id);
+  }, [id]);
 
   const handleEditItem = (itemId, itemName, itemPrice, itemQuantity) => {
     setEditableItemId(itemId);
@@ -50,16 +52,20 @@ const Inventory = () => {
   };
 
   const handleAddItem = () => {
-    const newItemId = uuidv4();
-
     const newItem = {
-      inventory_id: newItemId,
+      merchant_id: merchantId,
       item_name: "New Item",
       item_price: 0.0,
       item_quantity: 0,
     };
 
-    setInventory([...inventory, newItem]);
+    Axios.post("http://localhost:3001/inventory", newItem)
+      .then((response) => {
+        setInventory([...inventory, newItem]);
+      })
+      .catch((error) => {
+        console.error("Error adding item:", error);
+      });
   };
 
   const handleRemoveItem = (itemId) => {

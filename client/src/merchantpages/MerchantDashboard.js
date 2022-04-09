@@ -1,13 +1,23 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
 
 const MerchantDashboard = () => {
+  const [merchantId, setMerchantId] = useState(null);
+
+  const { id } = useParams();
+
+  useEffect(() => {
+    const MerchantId = id;
+
+    setMerchantId(MerchantId);
+  }, [id]);
+
   return (
     <div>
       <h2>Merchant Dashboard</h2>
       <ul>
         <li>
-          <Link to="/inventory">Inventory</Link>
+          <Link to={`/inventory/${merchantId}`}>Inventory</Link>
         </li>
       </ul>
     </div>

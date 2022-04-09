@@ -1,6 +1,7 @@
 const express = require("express");
 const mysql = require("mysql");
 const cors = require("cors");
+
 const app = express();
 
 app.use(cors());
@@ -117,18 +118,44 @@ app.post("/login", (req, res) => {
   );
 });
 
-app.get("/inventory", (req, res) => {
-  db.query("SELECT * FROM inventory", (err, results) => {
-    if (err) {
-      console.error("Error fetching inventory items:", err);
-      res
-        .status(500)
-        .json({ error: "An error occurred while fetching inventory items" });
-      return;
-    }
+app.get("/inventory/:id", (req, res) => {
+  const merchant = req.params.id;
 
-    res.status(200).json(results);
-  });
+  if (!merchant) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+
+  db.query(
+    "SELECT item_name, item_price, item_quantity FROM inventory WHERE merchant_id = ?",
+    [merchant],
+    (err, results) => {
+      if (err) {
+        console.error("Error fetching inventory items:", err);
+        res
+          .status(500)
+          .json({ error: "An error occurred while fetching inventory items" });
+        return;
+      }
+
+      res.status(200).json(results);
+    }
+  );
+});
+
+app.post("/inventory", (req, res) => {
+  const { item_name, item_price, item_quantity, merchant_id } = req.body;
+
+  db.query(
+    "INSERT INTO inventory (item_name, item_price, item_quantity, merchant_id) VALUES ?",
+    [item_name, item_price, item_quantity, merchant_id],
+    (err, results) => {
+      if (err) {
+        console.error("Error adding initial inventory items: " + err);
+      }
+
+      res.status(201).json({ message: "Added inventory successfully" });
+    }
+  );
 });
 
 app.listen(3001, () => {

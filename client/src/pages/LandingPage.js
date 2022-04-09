@@ -1,6 +1,6 @@
 import React from "react";
-import RegistrationForm from "../components/RegistrationForm";
-import Login from "../components/Login";
+import MerchantRegistrationForm from "../components/MerchantRegistrationForm";
+import MerchantLogin from "../components/MerchantLogin";
 import "../styles/LandingPage.css";
 
 const LandingPage = () => {
@@ -26,8 +26,8 @@ const LandingPage = () => {
             Our dedicated team is here to provide you with the best shopping
             experience.
           </p>
-          <RegistrationForm />
-          <Login />
+          <MerchantRegistrationForm />
+          <MerchantLogin />
         </div>
       </section>
       <footer>

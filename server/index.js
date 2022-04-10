@@ -197,6 +197,25 @@ app.put("/inventory/:inventory_id", (req, res) => {
   );
 });
 
+app.post("/registercustomer", (req, res) => {
+  const { name, email, password } = req.body;
+
+  db.query(
+    "INSERT INTO customers (customer_name, customer_email, customer_password) VALUES (?, ?, ?)",
+    [name, email, password],
+    (err, results) => {
+      if (err) {
+        console.error("Error registering customer: " + err);
+        res
+          .status(500)
+          .json({ error: "An error occurred while registering the customer" });
+        return;
+      }
+      res.status(201).json({ message: "Customer registered successfully" });
+    }
+  );
+});
+
 app.listen(3001, () => {
   console.log(`Server is running on port 3001`);
 });

@@ -1,6 +1,7 @@
 import React from "react";
 import MerchantRegistrationForm from "../components/MerchantRegistrationForm";
 import MerchantLogin from "../components/MerchantLogin";
+import CustomerRegistrationForm from "../components/CustomerRegistrationForm";
 import "../styles/LandingPage.css";
 
 const LandingPage = () => {
@@ -28,6 +29,7 @@ const LandingPage = () => {
           </p>
           <MerchantRegistrationForm />
           <MerchantLogin />
+          <CustomerRegistrationForm />
         </div>
       </section>
       <footer>

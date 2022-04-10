@@ -31,7 +31,7 @@ const MerchantLogin = ({ onLogin }) => {
 
   return (
     <div>
-      <h2>Login</h2>
+      <h2>Merchant Login</h2>
       <div>
         <input
           type="email"

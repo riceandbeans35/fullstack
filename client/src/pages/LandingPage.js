@@ -36,9 +36,6 @@ const LandingPage = () => {
       </section>
       <footer>
         <div className="footer-links">
-          <a href="/storelists" style={{ marginRight: "10px" }}>
-            View Stores
-          </a>
           <a href="/aboutus" style={{ marginRight: "10px" }}>
             About Us
           </a>

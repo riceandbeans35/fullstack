@@ -216,6 +216,33 @@ app.post("/registercustomer", (req, res) => {
   );
 });
 
+app.post("/customerlogin", (req, res) => {
+  const { email, password } = req.body;
+
+  db.query(
+    "SELECT * FROM customers WHERE customer_email = ? AND customer_password = ?",
+    [email, password],
+    (err, results) => {
+      if (err) {
+        console.error("Error during login:", err);
+        return res
+          .status(500)
+          .json({ success: false, error: "An error occurred during login." });
+      }
+
+      if (results.length === 1) {
+        const customer = results[0];
+        return res.json({ success: true, customer });
+      } else {
+        return res.json({
+          success: false,
+          error: "Invalid email or password.",
+        });
+      }
+    }
+  );
+});
+
 app.listen(3001, () => {
   console.log(`Server is running on port 3001`);
 });

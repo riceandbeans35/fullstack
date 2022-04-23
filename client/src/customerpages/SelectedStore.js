@@ -1,23 +1,46 @@
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import Axios from "axios";
 
 const SelectedStore = ({ match }) => {
-  const storeId = match.params.storeId;
-  const [store, setStore] = useState({});
+  const merchantId = useParams();
   const [items, setItems] = useState([]);
+  const [store, setStore] = useState([]);
 
-  useEffect(() => {}, [storeId]);
+  useEffect(() => {
+    Axios.get(`http://localhost:3001/merchantstore/${merchantId.id}`)
+      .then((response) => {
+        setItems(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching items:", error);
+      });
+
+    Axios.get(`http://localhost:3001/storename/${merchantId.id}`)
+      .then((response) => {
+        setStore(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching store data:", error);
+      });
+  }, [merchantId]);
 
   return (
     <div className="store-page">
-      <h1>{store.store_name}</h1>
-      <h2>Items for Sale:</h2>
+      {store.map((store) => (
+        <ul key={store.id}>
+          <h2>{store.store}</h2>
+        </ul>
+      ))}
       <ul>
         {items.map((item) => (
-          <li key={item.item_id}>
-            <p>{item.name}</p>
-            <p>Price: ${item.price.toFixed(2)}</p>
-            <p>Quantity: {item.quantity}</p>
-          </li>
+          <ul key={item.inventory_id}>
+            <p>
+              <strong>{item.item_name}</strong>
+            </p>
+            <p>Price: ${item.item_price.toFixed(2)}</p>
+            <p>Quantity: {item.item_quantity}</p>
+          </ul>
         ))}
       </ul>
     </div>

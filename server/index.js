@@ -77,7 +77,7 @@ app.post("/register", (req, res) => {
 });
 
 app.get("/storelist", (req, res) => {
-  db.query("SELECT store FROM merchants", (err, results) => {
+  db.query("SELECT store, id FROM merchants", (err, results) => {
     if (err) {
       console.error("Error fetching store names:", err);
       res
@@ -86,8 +86,7 @@ app.get("/storelist", (req, res) => {
       return;
     }
 
-    const storeNames = results.map((result) => result.store);
-    res.status(200).json(storeNames);
+    res.status(200).json(results);
   });
 });
 
@@ -239,6 +238,46 @@ app.post("/customerlogin", (req, res) => {
           error: "Invalid email or password.",
         });
       }
+    }
+  );
+});
+
+app.get("/merchantstore/:merchantId", (req, res) => {
+  const merchantId = req.params.merchantId;
+
+  db.query(
+    "SELECT * FROM inventory WHERE merchant_id = ?",
+    [merchantId],
+    (err, results) => {
+      if (err) {
+        console.error("Error fetching items by merchant:", err);
+        res
+          .status(500)
+          .json({ error: "An error occurred while fetching items" });
+        return;
+      }
+
+      res.status(200).json(results);
+    }
+  );
+});
+
+app.get("/storename/:id", (req, res) => {
+  const merchantId = req.params.id;
+
+  db.query(
+    "SELECT store, id FROM merchants WHERE id = ?",
+    [merchantId],
+    (err, results) => {
+      if (err) {
+        console.error("Error fetching items by merchant:", err);
+        res
+          .status(500)
+          .json({ error: "An error occurred while fetching items" });
+        return;
+      }
+
+      res.status(200).json(results);
     }
   );
 });

@@ -5,11 +5,12 @@ import Axios from "axios";
 const Inventory = () => {
   const [inventory, setInventory] = useState([]);
   const [merchantId, setMerchantId] = useState(null);
-  const { id } = useParams();
+  const [store, setStore] = useState([]);
   const [editableItemId, setEditableItemId] = useState(null);
   const [editedItemName, setEditedItemName] = useState("");
   const [editedItemPrice, setEditedItemPrice] = useState(0);
   const [editedItemQuantity, setEditedItemQuantity] = useState(0);
+  const { id } = useParams();
 
   const fetchInventoryData = async () => {
     try {
@@ -18,6 +19,13 @@ const Inventory = () => {
     } catch (error) {
       console.error("Error fetching inventory data:", error);
     }
+    Axios.get(`http://localhost:3001/storename/${id}`)
+      .then((response) => {
+        setStore(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching store data:", error);
+      });
   };
 
   useEffect(() => {
@@ -88,7 +96,12 @@ const Inventory = () => {
 
   return (
     <div className="inventory-page">
-      <h1>Inventory Management</h1>
+      {store.map((store) => (
+        <ul key={store.id}>
+          <h2>{store.store}</h2>
+        </ul>
+      ))}
+
       <table>
         <thead>
           <tr>

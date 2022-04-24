@@ -39,7 +39,7 @@ const SelectedStore = ({ match }) => {
               <strong>{item.item_name}</strong>
             </p>
             <p>Price: ${item.item_price.toFixed(2)}</p>
-            <p>Quantity: {item.item_quantity}</p>
+            <p>In Stock: {item.item_quantity}</p>
           </ul>
         ))}
       </ul>

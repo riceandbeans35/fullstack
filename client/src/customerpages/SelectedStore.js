@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import Axios from "axios";
+import { useDispatch } from "react-redux";
+import { add } from "../redux/cartSlice";
 
-const SelectedStore = ({ match }) => {
+const SelectedStore = ({ item }) => {
   const merchantId = useParams();
   const [items, setItems] = useState([]);
   const [store, setStore] = useState([]);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     Axios.get(`http://localhost:3001/merchantstore/${merchantId.id}`)
@@ -25,6 +28,10 @@ const SelectedStore = ({ match }) => {
       });
   }, [merchantId]);
 
+  const handleAddToCart = (item) => {
+    dispatch(add(item));
+  };
+
   return (
     <div className="store-page">
       {store.map((store) => (
@@ -40,8 +47,12 @@ const SelectedStore = ({ match }) => {
             </p>
             <p>Price: ${item.item_price.toFixed(2)}</p>
             <p>In Stock: {item.item_quantity}</p>
+            <button onClick={() => handleAddToCart(item)}>Add to Cart</button>
           </ul>
         ))}
+        <Link to="/checkout">
+          <button>Go to Checkout</button>
+        </Link>
       </ul>
     </div>
   );

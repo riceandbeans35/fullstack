@@ -2,19 +2,13 @@ import React from "react";
 
 const ShoppingCartItems = ({ item }) => {
   return (
-    <>
-      <div>
-        <div>
-          <div>
-            <p>
-              {" "}
-              <strong> {item.item_name} </strong>
-            </p>
-            <p>${item.item_price}</p>
-          </div>
-        </div>
-      </div>
-    </>
+    <div>
+      <p>
+        <strong> Item: {item.item_name} </strong>
+      </p>
+      <p>Price: ${item.item_price}</p>
+      <p>Quantity: {item.quantity}</p>
+    </div>
   );
 };
 

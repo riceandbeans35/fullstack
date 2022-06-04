@@ -7,7 +7,14 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     add(state, action) {
-      state.push(action.payload);
+      const itemToUpdate = state.find(
+        (item) => item.inventory_id === action.payload.inventory_id
+      );
+      if (itemToUpdate) {
+        itemToUpdate.quantity += 1;
+      } else {
+        state.push({ ...action.payload, quantity: 1 });
+      }
     },
     remove(state, action) {
       return state.filter((item) => item.id !== action.payload);

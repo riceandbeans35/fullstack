@@ -4,13 +4,20 @@ import React from "react";
 
 const Checkout = () => {
   const { cart } = useSelector((state) => state);
+  const totalAmount = cart.reduce(
+    (total, item) => total + item.item_price * item.quantity,
+    0
+  );
 
   return (
     <div className="checkout-page">
-      <p>Checkout</p>
+      <h2>Checkout</h2>
       {cart.map((item) => {
         return <ShoppingCartItems key={item.inventory_id} item={item} />;
       })}
+      <p>
+        <strong>Total: ${totalAmount.toFixed(2)}</strong>
+      </p>
     </div>
   );
 };

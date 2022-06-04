@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import Axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { add } from "../redux/cartSlice";
+import { add, remove } from "../redux/cartSlice";
 
 const SelectedStore = ({ item }) => {
   const merchantId = useParams();
@@ -33,6 +33,10 @@ const SelectedStore = ({ item }) => {
     dispatch(add(item));
   };
 
+  const handleRemoveFromCart = (item) => {
+    dispatch(remove(item));
+  };
+
   return (
     <div className="store-page">
       {store.map((store) => (
@@ -57,6 +61,9 @@ const SelectedStore = ({ item }) => {
                 .map((cartItem) => cartItem.quantity)}
             </p>
             <button onClick={() => handleAddToCart(item)}>Add to Cart</button>
+            <button onClick={() => handleRemoveFromCart(item)}>
+              Remove From Cart
+            </button>
           </ul>
         ))}
         <Link to="/checkout">

@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const StoreList = () => {
   const [merchants, setMerchants] = useState([]);
+  const customerId = useParams();
 
   useEffect(() => {
     Axios.get("http://localhost:3001/storelist")
@@ -27,7 +28,10 @@ const StoreList = () => {
         }}
       >
         {merchants.map((merchant) => (
-          <Link to={`/selectedstore/${merchant.id}`} key={merchant.id}>
+          <Link
+            to={`/selectedstore/${merchant.id}/${customerId.id}`}
+            key={merchant.id}
+          >
             {merchant.store}
           </Link>
         ))}

@@ -28,7 +28,11 @@ function App() {
             exact
             element={<MerchantDashboard />}
           />
-          <Route path="/checkout" exact element={<Checkout />} />
+          <Route
+            path="/checkout/:id/:customer_id"
+            exact
+            element={<Checkout />}
+          />
         </Routes>
       </Router>
     </div>

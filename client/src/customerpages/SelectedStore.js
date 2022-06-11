@@ -5,14 +5,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { add, remove } from "../redux/cartSlice";
 
 const SelectedStore = ({ item }) => {
-  const merchantId = useParams();
+  const parameters = useParams();
   const [items, setItems] = useState([]);
   const [store, setStore] = useState([]);
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart);
 
+  console.log(parameters);
+
   useEffect(() => {
-    Axios.get(`http://localhost:3001/merchantstore/${merchantId.id}`)
+    Axios.get(`http://localhost:3001/merchantstore/${parameters.id}`)
       .then((response) => {
         setItems(response.data);
       })
@@ -20,14 +22,14 @@ const SelectedStore = ({ item }) => {
         console.error("Error fetching items:", error);
       });
 
-    Axios.get(`http://localhost:3001/storename/${merchantId.id}`)
+    Axios.get(`http://localhost:3001/storename/${parameters.id}`)
       .then((response) => {
         setStore(response.data);
       })
       .catch((error) => {
         console.error("Error fetching store data:", error);
       });
-  }, [merchantId]);
+  }, [parameters]);
 
   const handleAddToCart = (item) => {
     dispatch(add(item));
@@ -66,7 +68,7 @@ const SelectedStore = ({ item }) => {
             </button>
           </ul>
         ))}
-        <Link to="/checkout">
+        <Link to={`/checkout/${parameters.id}/${parameters.customer_id}`}>
           <button>Go to Checkout</button>
         </Link>
       </ul>

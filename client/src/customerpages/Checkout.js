@@ -1,6 +1,7 @@
 import ShoppingCartItems from "../components/ShoppingCartItems";
 import { useSelector } from "react-redux";
 import React from "react";
+import OrderForm from "../components/OrderForm";
 
 const Checkout = () => {
   const { cart } = useSelector((state) => state);
@@ -18,6 +19,7 @@ const Checkout = () => {
       <p>
         <strong>Total: ${totalAmount.toFixed(2)}</strong>
       </p>
+      <OrderForm />
     </div>
   );
 };

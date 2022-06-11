@@ -282,6 +282,62 @@ app.get("/storename/:id", (req, res) => {
   );
 });
 
+app.get("/customer/:customerId", (req, res) => {
+  const customerId = req.params.customerId;
+
+  db.query(
+    "SELECT customer_name, customer_email FROM customers WHERE customer_id = ?",
+    [customerId],
+    (err, results) => {
+      if (err) {
+        console.error("Error fetching customer data:", err);
+        res
+          .status(500)
+          .json({ error: "An error occurred while fetching customer data" });
+        return;
+      }
+
+      res.status(200).json(results);
+    }
+  );
+});
+
+app.post("/order", (req, res) => {
+  const orderNumber = req.body["order_number"];
+  const merchantId = req.body["merchant_id"];
+  const customerId = req.body["customer_id"];
+  const customerEmail = req.body["customer_email"];
+  const customerName = req.body["customer_name"];
+  const storeName = req.body["store"];
+  const orderItems = req.body.order_items;
+
+  const values = orderItems.map((item) => [
+    orderNumber,
+    merchantId,
+    customerId,
+    item.item_name,
+    item.item_price,
+    item.item_quantity,
+    customerEmail,
+    customerName,
+    storeName,
+  ]);
+  db.query(
+    "INSERT INTO customerorders (order_number, merchant_id, customer_id, item_name, item_price, item_quantity, customer_email, customer_name, store) VALUES ?",
+    [values],
+    (err, results) => {
+      if (err) {
+        console.error("Error adding customer order: " + err);
+        res
+          .status(500)
+          .json({ error: "An error occurred while adding customer order" });
+        return;
+      }
+      res.status(201).json({ message: "Customer order added successfully" });
+    }
+  );
+});
+
 app.listen(3001, () => {
   console.log(`Server is running on port 3001`);
 });

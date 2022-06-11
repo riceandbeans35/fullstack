@@ -11,8 +11,6 @@ const SelectedStore = ({ item }) => {
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart);
 
-  console.log(parameters);
-
   useEffect(() => {
     Axios.get(`http://localhost:3001/merchantstore/${parameters.id}`)
       .then((response) => {

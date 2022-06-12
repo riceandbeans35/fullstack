@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
+import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 
@@ -7,6 +8,8 @@ const OrderForm = () => {
   const [customer, setCustomer] = useState([]);
   const [store, setStore] = useState([]);
   const parameters = useParams();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     Axios.get(`http://localhost:3001/storename/${parameters.id}`)
@@ -67,6 +70,7 @@ const OrderForm = () => {
     Axios.post("http://localhost:3001/order", data)
       .then((response) => {
         console.log(response.data);
+        navigate(`/orderconfirmation/${data.order_number}`);
       })
       .catch((error) => {
         console.log(error);

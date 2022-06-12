@@ -6,6 +6,7 @@ import StoreList from "./customerpages/StoreList";
 import SelectedStore from "./customerpages/SelectedStore";
 import MerchantDashboard from "./merchantpages/MerchantDashboard";
 import Checkout from "./customerpages/Checkout";
+import OrderConfirmation from "./customerpages/OrderConfirmation";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 function App() {
@@ -32,6 +33,11 @@ function App() {
             path="/checkout/:id/:customer_id"
             exact
             element={<Checkout />}
+          />
+          <Route
+            path="/orderconfirmation/:order_number"
+            exact
+            element={<OrderConfirmation />}
           />
         </Routes>
       </Router>

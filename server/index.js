@@ -338,6 +338,26 @@ app.post("/order", (req, res) => {
   );
 });
 
+app.get("/order/:order_number", (req, res) => {
+  const orderNumber = req.params.order_number;
+
+  db.query(
+    "SELECT * FROM customerorders WHERE order_number = ?",
+    [orderNumber],
+    (err, results) => {
+      if (err) {
+        console.error("Error fetching customer order data:", err);
+        res.status(500).json({
+          error: "An error occurred while fetching customer order data",
+        });
+        return;
+      }
+
+      res.status(200).json(results);
+    }
+  );
+});
+
 app.listen(3001, () => {
   console.log(`Server is running on port 3001`);
 });

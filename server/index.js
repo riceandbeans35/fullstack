@@ -358,6 +358,26 @@ app.get("/order/:order_number", (req, res) => {
   );
 });
 
+app.get("/customerorder/:merchantId", (req, res) => {
+  const merchantId = req.params.merchantId;
+
+  db.query(
+    "SELECT * FROM customerorders WHERE merchant_id = ?",
+    [merchantId],
+    (err, results) => {
+      if (err) {
+        console.error("Error fetching customer order data:", err);
+        res.status(500).json({
+          error: "An error occurred while fetching customer order data",
+        });
+        return;
+      }
+
+      res.status(200).json(results);
+    }
+  );
+});
+
 app.listen(3001, () => {
   console.log(`Server is running on port 3001`);
 });

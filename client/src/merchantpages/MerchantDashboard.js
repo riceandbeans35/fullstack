@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
+import Navbar from "../components/Navbar";
 
 const MerchantDashboard = () => {
   const [merchantId, setMerchantId] = useState(null);
@@ -14,6 +15,7 @@ const MerchantDashboard = () => {
 
   return (
     <div>
+      <Navbar />
       <h2>Merchant Dashboard</h2>
       <ul>
         <li>

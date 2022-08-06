@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Navbar from "../components/Navbar";
 
 const Inventory = () => {
   const [inventory, setInventory] = useState([]);
@@ -100,6 +101,7 @@ const Inventory = () => {
 
   return (
     <div className="inventory-page">
+      <Navbar />
       {store.map((store) => (
         <ul key={store.id}>
           <h2>{store.store}</h2>

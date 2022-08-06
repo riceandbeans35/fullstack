@@ -70,7 +70,7 @@ const OrderForm = () => {
     Axios.post("http://localhost:3001/order", data)
       .then((response) => {
         console.log(response.data);
-        navigate(`/orderconfirmation/${data.order_number}`);
+        navigate(`/orderconfirmation/${data.customer_id}/${data.order_number}`);
       })
       .catch((error) => {
         console.log(error);

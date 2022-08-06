@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { add, remove } from "../redux/cartSlice";
+import { useNavigate } from "react-router-dom";
 
 const SelectedStore = ({ item }) => {
   const parameters = useParams();
@@ -10,6 +11,8 @@ const SelectedStore = ({ item }) => {
   const [store, setStore] = useState([]);
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     Axios.get(`http://localhost:3001/merchantstore/${parameters.id}`)
@@ -66,9 +69,20 @@ const SelectedStore = ({ item }) => {
             </button>
           </ul>
         ))}
-        <Link to={`/checkout/${parameters.id}/${parameters.customer_id}`}>
-          <button>Go to Checkout</button>
-        </Link>
+        <button
+          onClick={() => {
+            navigate(`/checkout/${parameters.id}/${parameters.customer_id}`);
+          }}
+        >
+          Checkout
+        </button>
+        <button
+          onClick={() => {
+            navigate(`/storelist/${parameters.customer_id}`);
+          }}
+        >
+          Back to Store List
+        </button>
       </ul>
     </div>
   );

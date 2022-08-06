@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
 import Axios from "axios";
 import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const OrderConfirmation = () => {
-  const orderNumber = useParams();
+  const parameters = useParams();
   const [orderDetails, setOrderDetails] = useState(null);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
-    Axios.get(`http://localhost:3001/order/${orderNumber.order_number}`)
+    Axios.get(`http://localhost:3001/order/${parameters.order_number}`)
       .then((response) => {
         setOrderDetails(response.data);
         console.log(response.data);
@@ -15,7 +18,7 @@ const OrderConfirmation = () => {
       .catch((error) => {
         console.error("Error fetching order details:", error);
       });
-  }, [orderNumber]);
+  }, [parameters]);
 
   if (!orderDetails) {
     return <div>Loading...</div>;
@@ -28,7 +31,7 @@ const OrderConfirmation = () => {
   return (
     <div>
       <h2>Order Confirmation</h2>
-      <p>Order Number: {orderNumber.order_number}</p>
+      <p>Order Number: {parameters.order_number}</p>
 
       <h3>Order Details:</h3>
       <ul>
@@ -40,6 +43,13 @@ const OrderConfirmation = () => {
         ))}
       </ul>
       <p>Total Amount: ${totalAmount.toFixed(2)}</p>
+      <button
+        onClick={() => {
+          navigate(`/storelist/${parameters.customer_id}`);
+        }}
+      >
+        Back to Store List
+      </button>
     </div>
   );
 };

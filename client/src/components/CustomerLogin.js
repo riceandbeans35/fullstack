@@ -18,7 +18,7 @@ const CustomerLogin = ({ onLogin }) => {
       .then((response) => {
         if (response.data.success) {
           const customerId = response.data.customer.customer_id;
-          navigate(`/storelists/${customerId}`);
+          navigate(`/storelist/${customerId}`);
           console.log("Login Successful");
         } else {
           console.log("Login failed:", response.data.error);

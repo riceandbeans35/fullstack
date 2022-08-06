@@ -19,7 +19,7 @@ function App() {
           <Route path="/aboutus" exact element={<AboutUs />} />
           <Route path="/contact" exact element={<Contact />} />
           <Route path="/inventory/:id" exact element={<Inventory />} />
-          <Route path="/storelists/:id" exact element={<StoreList />} />
+          <Route path="/storelist/:id" exact element={<StoreList />} />
           <Route
             path="/selectedstore/:id/:customer_id"
             exact
@@ -36,7 +36,7 @@ function App() {
             element={<Checkout />}
           />
           <Route
-            path="/orderconfirmation/:order_number"
+            path="/orderconfirmation/:customer_id/:order_number"
             exact
             element={<OrderConfirmation />}
           />

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Inventory = () => {
   const [inventory, setInventory] = useState([]);
@@ -11,6 +12,8 @@ const Inventory = () => {
   const [editedItemPrice, setEditedItemPrice] = useState(0);
   const [editedItemQuantity, setEditedItemQuantity] = useState(0);
   const { id } = useParams();
+
+  const navigate = useNavigate();
 
   const fetchInventoryData = async () => {
     try {
@@ -184,6 +187,13 @@ const Inventory = () => {
         </tbody>
       </table>
       <button onClick={handleAddItem}>Add Item</button>
+      <button
+        onClick={() => {
+          navigate(`/merchantdashboard/${id}`);
+        }}
+      >
+        Back to Dashboard
+      </button>
     </div>
   );
 };

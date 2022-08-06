@@ -18,6 +18,8 @@ const MerchantDashboard = () => {
       <ul>
         <li>
           <Link to={`/inventory/${merchantId}`}>Inventory</Link>
+        </li>
+        <li>
           <Link to={`/customerorders/${merchantId}`}>Customer Orders</Link>
         </li>
       </ul>

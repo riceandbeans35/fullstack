@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Axios from "axios";
 import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const CustomerOrders = () => {
   const [orders, setOrders] = useState([]);
   const merchantId = useParams();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     Axios.get(`http://localhost:3001/customerorder/${merchantId.merchant_id}`)
@@ -42,6 +45,13 @@ const CustomerOrders = () => {
           ))}
         </tbody>
       </table>
+      <button
+        onClick={() => {
+          navigate(`/merchantdashboard/${merchantId.merchant_id}`);
+        }}
+      >
+        Back to Dashboard
+      </button>
     </div>
   );
 };

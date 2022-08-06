@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import { Link, useParams } from "react-router-dom";
+import CustomerNavbar from "../components/CustomerNavbar";
 
 const StoreList = () => {
   const [merchants, setMerchants] = useState([]);
@@ -18,6 +19,7 @@ const StoreList = () => {
 
   return (
     <div>
+      <CustomerNavbar />
       <h2>List of Stores</h2>
       <ul
         style={{

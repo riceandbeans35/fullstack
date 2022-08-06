@@ -4,6 +4,7 @@ import Axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { add, remove } from "../redux/cartSlice";
 import { useNavigate } from "react-router-dom";
+import CustomerNavbar from "../components/CustomerNavbar";
 
 const SelectedStore = ({ item }) => {
   const parameters = useParams();
@@ -42,6 +43,7 @@ const SelectedStore = ({ item }) => {
 
   return (
     <div className="store-page">
+      <CustomerNavbar />
       {store.map((store) => (
         <ul key={store.id}>
           <h2>{store.store}</h2>

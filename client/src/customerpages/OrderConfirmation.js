@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Axios from "axios";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import CustomerNavbar from "../components/CustomerNavbar";
 
 const OrderConfirmation = () => {
   const parameters = useParams();
@@ -30,6 +31,7 @@ const OrderConfirmation = () => {
 
   return (
     <div>
+      <CustomerNavbar />
       <h2>Order Confirmation</h2>
       <p>Order Number: {parameters.order_number}</p>
 

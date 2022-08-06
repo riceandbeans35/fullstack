@@ -4,6 +4,7 @@ import React from "react";
 import OrderForm from "../components/OrderForm";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import CustomerNavbar from "../components/CustomerNavbar";
 
 const Checkout = () => {
   const { cart } = useSelector((state) => state);
@@ -17,6 +18,7 @@ const Checkout = () => {
 
   return (
     <div className="checkout-page">
+      <CustomerNavbar />
       <h2>Checkout</h2>
       {cart.map((item) => {
         return <ShoppingCartItems key={item.inventory_id} item={item} />;

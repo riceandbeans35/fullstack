@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Axios from "axios";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import Navbar from "../components/Navbar";
+import MerchantNavbar from "../components/MerchantNavbar";
 
 const CustomerOrders = () => {
   const [orders, setOrders] = useState([]);
@@ -23,7 +23,7 @@ const CustomerOrders = () => {
 
   return (
     <div>
-      <Navbar />
+      <MerchantNavbar />
       <h2>Customer Orders</h2>
       <table>
         <thead>

@@ -2,7 +2,7 @@ import React from "react";
 import { Link, useParams } from "react-router-dom";
 import "../styles/Navbar.css";
 
-const Navbar = () => {
+const MerchantNavbar = () => {
   const { id, merchant_id } = useParams();
 
   return (
@@ -19,9 +19,12 @@ const Navbar = () => {
             Customer Orders
           </Link>
         </li>
+        <li>
+          <Link to={"/"}>Sign Out</Link>
+        </li>
       </ul>
     </nav>
   );
 };
 
-export default Navbar;
+export default MerchantNavbar;

@@ -75,6 +75,7 @@ const Inventory = () => {
     Axios.post("http://localhost:3001/inventory", newItem)
       .then((response) => {
         setInventory([...inventory, newItem]);
+        window.location.reload();
       })
       .catch((error) => {
         console.error("Error adding item:", error);

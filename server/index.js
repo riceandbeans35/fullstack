@@ -1,11 +1,20 @@
 const express = require("express");
 const mysql = require("mysql");
 const cors = require("cors");
+const nodemailer = require("nodemailer");
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
+
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: "atlasbusiness35@gmail.com",
+    pass: "rayg bfki dpkx gfwm",
+  },
+});
 
 const db = mysql.createConnection({
   host: "localhost",
@@ -322,6 +331,29 @@ app.post("/order", (req, res) => {
     customerName,
     storeName,
   ]);
+
+  const mailOptions = {
+    from: "atlasbusiness35@gmail.com",
+    to: customerEmail,
+    subject: ` ${storeName} - ${customerName}'s Order Confirmation`,
+    html: `
+    <p>Hi ${customerName},
+    <p>Thank you for shopping with ${storeName}.</p>
+    <p>Details for your order are below: </p>
+    <p>Order Number: ${orderNumber}</p>
+    <p><strong>Order Items: </strong></p>
+    <ul>
+      ${orderItems
+        .map(
+          (item) => `
+        <ul>${item.item_name} - Price: $${item.item_price} - Quantity: ${item.item_quantity}</ul>
+      `
+        )
+        .join("")}
+    </ul>
+    <p> View your order <a href="http://localhost:3000/orderconfirmation/${customerId}/${orderNumber}"> here </a> </p>  
+  `,
+  };
   db.query(
     "INSERT INTO customerorders (order_number, merchant_id, customer_id, item_name, item_price, item_quantity, customer_email, customer_name, store) VALUES ?",
     [values],
@@ -333,7 +365,19 @@ app.post("/order", (req, res) => {
           .json({ error: "An error occurred while adding customer order" });
         return;
       }
-      res.status(201).json({ message: "Customer order added successfully" });
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          console.error("Error sending email:", error);
+          res
+            .status(500)
+            .json({ error: "An error occurred while sending the email" });
+        } else {
+          console.log("Email sent:", info.response);
+          res.status(201).json({
+            message: "Customer order added successfully and email sent",
+          });
+        }
+      });
     }
   );
 });

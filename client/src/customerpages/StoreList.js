@@ -30,12 +30,14 @@ const StoreList = () => {
         }}
       >
         {merchants.map((merchant) => (
-          <Link
-            to={`/selectedstore/${merchant.id}/${customerId.id}`}
-            key={merchant.id}
-          >
-            {merchant.store}
-          </Link>
+          <ul key={merchant.id}>
+            <Link
+              to={`/selectedstore/${merchant.id}/${customerId.id}`}
+              key={merchant.id}
+            >
+              {merchant.store}
+            </Link>
+          </ul>
         ))}
       </ul>
     </div>

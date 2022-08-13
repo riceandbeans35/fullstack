@@ -10,6 +10,10 @@ const OrderConfirmation = () => {
 
   const navigate = useNavigate();
 
+  const handleReloadPage = () => {
+    window.location.reload();
+  };
+
   useEffect(() => {
     Axios.get(`http://localhost:3001/order/${parameters.order_number}`)
       .then((response) => {
@@ -48,6 +52,7 @@ const OrderConfirmation = () => {
       <button
         onClick={() => {
           navigate(`/storelist/${parameters.customer_id}`);
+          handleReloadPage();
         }}
       >
         Back to Store List

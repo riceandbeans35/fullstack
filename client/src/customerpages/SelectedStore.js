@@ -15,6 +15,10 @@ const SelectedStore = ({ item }) => {
 
   const navigate = useNavigate();
 
+  const handleReloadPage = () => {
+    window.location.reload();
+  };
+
   useEffect(() => {
     Axios.get(`http://localhost:3001/merchantstore/${parameters.id}`)
       .then((response) => {
@@ -81,6 +85,7 @@ const SelectedStore = ({ item }) => {
         <button
           onClick={() => {
             navigate(`/storelist/${parameters.customer_id}`);
+            handleReloadPage();
           }}
         >
           Back to Store List

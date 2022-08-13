@@ -17,9 +17,11 @@ const MerchantDashboard = () => {
   });
 
   socket.on("orderNotification", (data) => {
-    enqueueSnackbar(
-      `${data.customerName} placed an order from your store ${data.storeName}`
-    );
+    if (window.location.pathname === `/merchantdashboard/${data.merchantId}`) {
+      enqueueSnackbar(
+        `${data.customerName} placed an order from your store ${data.storeName}`
+      );
+    }
   });
 
   useEffect(() => {

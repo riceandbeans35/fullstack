@@ -21,11 +21,12 @@ const CustomerOrders = () => {
   });
 
   socket.on("orderNotification", (data) => {
-    enqueueSnackbar(
-      `${data.customerName} placed an order from your store ${data.storeName}`
-    );
+    if (window.location.pathname === `/customerorders/${data.merchantId}`) {
+      enqueueSnackbar(
+        `${data.customerName} placed an order from your store ${data.storeName}`
+      );
+    }
   });
-
   useEffect(() => {
     Axios.get(`http://localhost:3001/customerorder/${parameters.merchant_id}`)
       .then((response) => {

@@ -12,9 +12,6 @@ const CustomerNavbar = () => {
           `/selectedstore/${id || merchant_id}/${customer_id}` && (
           <>
             <li>
-              <Link to={`/storelist/${customer_id}`}>Store List</Link>
-            </li>
-            <li>
               <Link to={`/checkout/${id || merchant_id}/${customer_id}`}>
                 Checkout
               </Link>
@@ -35,9 +32,6 @@ const CustomerNavbar = () => {
           `/checkout/${id || merchant_id}/${customer_id}` && (
           <>
             <li>
-              <Link to={`/storelist/${customer_id}`}>Store List</Link>
-            </li>
-            <li>
               <Link to="/">Sign Out</Link>
             </li>
           </>
@@ -45,9 +39,6 @@ const CustomerNavbar = () => {
         {window.location.pathname ===
           `/orderconfirmation/${customer_id}/${order_number}` && (
           <>
-            <li>
-              <Link to={`/storelist/${customer_id}`}>Store List</Link>
-            </li>
             <li>
               <Link to="/">Sign Out</Link>
             </li>

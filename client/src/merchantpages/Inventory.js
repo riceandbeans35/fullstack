@@ -27,9 +27,11 @@ const Inventory = () => {
   });
 
   socket.on("orderNotification", (data) => {
-    enqueueSnackbar(
-      `${data.customerName} placed an order from your store ${data.storeName}`
-    );
+    if (window.location.pathname === `/inventory/${data.merchantId}`) {
+      enqueueSnackbar(
+        `${data.customerName} placed an order from your store ${data.storeName}`
+      );
+    }
   });
 
   const fetchInventoryData = async () => {

@@ -402,6 +402,7 @@ app.post("/order", (req, res) => {
             customerName: customerName,
             storeName: storeName,
             orderNumber: orderNumber,
+            merchantId: merchantId,
           };
           io.emit("orderNotification", orderNotification);
         }

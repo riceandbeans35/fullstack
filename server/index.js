@@ -2,10 +2,32 @@ const express = require("express");
 const mysql = require("mysql");
 const cors = require("cors");
 const nodemailer = require("nodemailer");
-
+const http = require("http");
+const { Server } = require("socket.io");
 const app = express();
-
 app.use(cors());
+
+const server = http.createServer(app);
+
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"],
+  },
+});
+
+io.on("connection", (socket) => {
+  console.log(`A user connected: ${socket.id}`);
+
+  socket.on("disconnect", () => {
+    console.log("User disconnected");
+  });
+});
+
+server.listen(3002, () => {
+  console.log("WebSocket server is running on port 3002");
+});
+
 app.use(express.json());
 
 const transporter = nodemailer.createTransport({
@@ -338,7 +360,7 @@ app.post("/order", (req, res) => {
     subject: ` ${storeName} - ${customerName}'s Order Confirmation`,
     html: `
     <p>Hi ${customerName},
-    <p>Thank you for shopping with ${storeName}.</p>
+    <p>Thank you for shopping at ${storeName}.</p>
     <p>Details for your order are below: </p>
     <p>Order Number: ${orderNumber}</p>
     <p><strong>Order Items: </strong></p>
@@ -376,6 +398,12 @@ app.post("/order", (req, res) => {
           res.status(201).json({
             message: "Customer order added successfully and email sent",
           });
+          const orderNotification = {
+            customerName: customerName,
+            storeName: storeName,
+            orderNumber: orderNumber,
+          };
+          io.emit("orderNotification", orderNotification);
         }
       });
     }

@@ -1,11 +1,26 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import MerchantNavbar from "../components/MerchantNavbar";
+import { io } from "socket.io-client";
+import { useSnackbar } from "notistack";
 
 const MerchantDashboard = () => {
   const [merchantId, setMerchantId] = useState(null);
-
   const { id } = useParams();
+
+  const { enqueueSnackbar } = useSnackbar();
+
+  const socket = io("ws://localhost:3002");
+
+  socket.on("connection", () => {
+    console.log("Connected to WebSocket server");
+  });
+
+  socket.on("orderNotification", (data) => {
+    enqueueSnackbar(
+      `${data.customerName} placed an order from your store ${data.storeName}`
+    );
+  });
 
   useEffect(() => {
     const MerchantId = id;

@@ -51,7 +51,7 @@ const OrderForm = () => {
   }));
 
   function generateRandomOrderNumber() {
-    return Math.floor(Math.random() * 10000) + 1;
+    return Math.floor(Math.random() * 1000000) + 1;
   }
 
   const randomOrderNumber = generateRandomOrderNumber();

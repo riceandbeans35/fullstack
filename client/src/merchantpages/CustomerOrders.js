@@ -3,12 +3,28 @@ import Axios from "axios";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import MerchantNavbar from "../components/MerchantNavbar";
+import { io } from "socket.io-client";
+import { useSnackbar } from "notistack";
 
 const CustomerOrders = () => {
   const [orders, setOrders] = useState([]);
   const parameters = useParams();
 
   const navigate = useNavigate();
+
+  const { enqueueSnackbar } = useSnackbar();
+
+  const socket = io("ws://localhost:3002");
+
+  socket.on("connection", () => {
+    console.log("Connected to WebSocket server");
+  });
+
+  socket.on("orderNotification", (data) => {
+    enqueueSnackbar(
+      `${data.customerName} placed an order from your store ${data.storeName}`
+    );
+  });
 
   useEffect(() => {
     Axios.get(`http://localhost:3001/customerorder/${parameters.merchant_id}`)

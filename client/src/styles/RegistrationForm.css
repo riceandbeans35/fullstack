@@ -1,0 +1,18 @@
+.form-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.form-description {
+  margin-bottom: 3px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+  margin-right: 40px;
+}
+
+.error {
+  color: red;
+  font-size: 15px;
+}

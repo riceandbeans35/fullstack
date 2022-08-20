@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 const CustomerLogin = ({ onLogin }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const navigate = useNavigate();
 
@@ -22,6 +23,7 @@ const CustomerLogin = ({ onLogin }) => {
           console.log("Login Successful");
         } else {
           console.log("Login failed:", response.data.error);
+          setErrorMessage(response.data.error);
         }
       })
       .catch((error) => {
@@ -33,18 +35,28 @@ const CustomerLogin = ({ onLogin }) => {
     <div>
       <h2>Customer Login</h2>
       <div>
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+        <div className="form-group">
+          <div className="form-description">Email Address: </div>
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          {errorMessage && <div className="error">{errorMessage}</div>}
+        </div>
+        <div className="form-group">
+          <div className="form-description">Create Password: </div>
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+          {errorMessage && <div className="error">{errorMessage}</div>}
+        </div>
       </div>
       <button
         onClick={() => {

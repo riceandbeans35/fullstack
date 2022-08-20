@@ -45,6 +45,7 @@ const OrderForm = () => {
   });
 
   const orderItems = orderItem.map((item) => ({
+    inventory_id: item.inventory_id,
     item_name: item.item_name,
     item_price: item.item_price,
     item_quantity: item.quantity,

@@ -333,7 +333,7 @@ app.get("/customer/:customerId", (req, res) => {
   );
 });
 
-app.post("/order", (req, res) => {
+app.post("/order", async (req, res) => {
   const orderNumber = req.body["order_number"];
   const merchantId = req.body["merchant_id"];
   const customerId = req.body["customer_id"];
@@ -346,6 +346,7 @@ app.post("/order", (req, res) => {
     orderNumber,
     merchantId,
     customerId,
+    item.inventory_id,
     item.item_name,
     item.item_price,
     item.item_quantity,
@@ -354,6 +355,39 @@ app.post("/order", (req, res) => {
     storeName,
   ]);
 
+  const updatePromises = orderItems.map((item) => {
+    return new Promise((resolve, reject) => {
+      const orderedQuantity = item.item_quantity;
+      const inventoryId = item.inventory_id;
+
+      db.query(
+        "SELECT item_quantity FROM Inventory WHERE inventory_id = ?",
+        [inventoryId],
+        (err, results) => {
+          if (err) {
+            reject(err);
+          } else if (results && results.length > 0) {
+            const currentQuantity = results[0].item_quantity;
+            const newQuantity = currentQuantity - orderedQuantity;
+
+            db.query(
+              "UPDATE Inventory SET item_quantity = ? WHERE inventory_id = ?",
+              [newQuantity, inventoryId],
+              (err, results) => {
+                if (err) {
+                  reject(err);
+                } else {
+                  resolve();
+                }
+              }
+            );
+          }
+        }
+      );
+    });
+  });
+
+  await Promise.all(updatePromises);
   const mailOptions = {
     from: "atlasbusiness35@gmail.com",
     to: customerEmail,
@@ -377,7 +411,7 @@ app.post("/order", (req, res) => {
   `,
   };
   db.query(
-    "INSERT INTO customerorders (order_number, merchant_id, customer_id, item_name, item_price, item_quantity, customer_email, customer_name, store) VALUES ?",
+    "INSERT INTO customerorders (order_number, merchant_id, customer_id, inventory_id, item_name, item_price, item_quantity, customer_email, customer_name, store) VALUES ?",
     [values],
     (err, results) => {
       if (err) {

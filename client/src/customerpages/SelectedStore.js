@@ -38,7 +38,21 @@ const SelectedStore = ({ item }) => {
   }, [parameters]);
 
   const handleAddToCart = (item) => {
-    dispatch(add(item));
+    const cartItem = cart.find(
+      (cartItem) => cartItem.inventory_id === item.inventory_id
+    );
+
+    if (!cartItem) {
+      if (item.item_quantity > 0) {
+        dispatch(add(item));
+      } else {
+        console.log(`Item is out of stock`);
+      }
+    } else if (cartItem.quantity < item.item_quantity) {
+      dispatch(add(item));
+    } else {
+      console.log(`Cannot add more ${cartItem.item_name}s`);
+    }
   };
 
   const handleRemoveFromCart = (item) => {

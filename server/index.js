@@ -334,65 +334,69 @@ app.get("/customer/:customerId", (req, res) => {
 });
 
 app.post("/order", async (req, res) => {
-  const orderNumber = req.body["order_number"];
-  const merchantId = req.body["merchant_id"];
-  const customerId = req.body["customer_id"];
-  const customerEmail = req.body["customer_email"];
-  const customerName = req.body["customer_name"];
-  const storeName = req.body["store"];
-  const orderItems = req.body.order_items;
+  try {
+    const orderNumber = req.body["order_number"];
+    const merchantId = req.body["merchant_id"];
+    const customerId = req.body["customer_id"];
+    const customerEmail = req.body["customer_email"];
+    const customerName = req.body["customer_name"];
+    const storeName = req.body["store"];
+    const orderItems = req.body.order_items;
 
-  const values = orderItems.map((item) => [
-    orderNumber,
-    merchantId,
-    customerId,
-    item.inventory_id,
-    item.item_name,
-    item.item_price,
-    item.item_quantity,
-    customerEmail,
-    customerName,
-    storeName,
-  ]);
+    const values = orderItems.map((item) => [
+      orderNumber,
+      merchantId,
+      customerId,
+      item.inventory_id,
+      item.item_name,
+      item.item_price,
+      item.item_quantity,
+      customerEmail,
+      customerName,
+      storeName,
+    ]);
 
-  const updatePromises = orderItems.map((item) => {
-    return new Promise((resolve, reject) => {
-      const orderedQuantity = item.item_quantity;
-      const inventoryId = item.inventory_id;
+    const updatePromises = orderItems.map((item) => {
+      return new Promise((resolve, reject) => {
+        const orderedQuantity = item.item_quantity;
+        const inventoryId = item.inventory_id;
 
-      db.query(
-        "SELECT item_quantity FROM Inventory WHERE inventory_id = ?",
-        [inventoryId],
-        (err, results) => {
-          if (err) {
-            reject(err);
-          } else if (results && results.length > 0) {
-            const currentQuantity = results[0].item_quantity;
-            const newQuantity = currentQuantity - orderedQuantity;
-
-            db.query(
-              "UPDATE Inventory SET item_quantity = ? WHERE inventory_id = ?",
-              [newQuantity, inventoryId],
-              (err, results) => {
-                if (err) {
-                  reject(err);
-                } else {
-                  resolve();
-                }
+        db.query(
+          "SELECT item_quantity FROM Inventory WHERE inventory_id = ?",
+          [inventoryId],
+          (err, results) => {
+            if (err) {
+              reject(err);
+            } else if (results && results.length > 0) {
+              const currentQuantity = results[0].item_quantity;
+              const newQuantity = currentQuantity - orderedQuantity;
+              if (currentQuantity < orderedQuantity) {
+                reject(new Error("Item is out of stock"));
+              } else {
+                db.query(
+                  "UPDATE Inventory SET item_quantity = ? WHERE inventory_id = ?",
+                  [newQuantity, inventoryId],
+                  (err, results) => {
+                    if (err) {
+                      reject(err);
+                    } else {
+                      resolve();
+                    }
+                  }
+                );
               }
-            );
+            }
           }
-        }
-      );
+        );
+      });
     });
-  });
 
-  await Promise.all(updatePromises);
-  const mailOptions = {
-    from: "atlasbusiness35@gmail.com",
-    to: customerEmail,
-    subject: ` ${storeName} - ${customerName}'s Order Confirmation`,
-    html: `
+    await Promise.all(updatePromises);
+    const mailOptions = {
+      from: "atlasbusiness35@gmail.com",
+      to: customerEmail,
+      subject: ` ${storeName} - ${customerName}'s Order Confirmation`,
+      html: `
     <p>Hi ${customerName},
     <p>Thank you for shopping at ${storeName}.</p>
     <p>Details for your order are below: </p>
@@ -409,40 +413,43 @@ app.post("/order", async (req, res) => {
     </ul>
     <p> View your order <a href="http://localhost:3000/orderconfirmation/${customerId}/${orderNumber}"> here </a> </p>  
   `,
-  };
-  db.query(
-    "INSERT INTO customerorders (order_number, merchant_id, customer_id, inventory_id, item_name, item_price, item_quantity, customer_email, customer_name, store) VALUES ?",
-    [values],
-    (err, results) => {
-      if (err) {
-        console.error("Error adding customer order: " + err);
-        res
-          .status(500)
-          .json({ error: "An error occurred while adding customer order" });
-        return;
-      }
-      transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-          console.error("Error sending email:", error);
+    };
+    db.query(
+      "INSERT INTO customerorders (order_number, merchant_id, customer_id, inventory_id, item_name, item_price, item_quantity, customer_email, customer_name, store) VALUES ?",
+      [values],
+      (err, results) => {
+        if (err) {
+          console.error("Error adding customer order: " + err);
           res
             .status(500)
-            .json({ error: "An error occurred while sending the email" });
-        } else {
-          console.log("Email sent:", info.response);
-          res.status(201).json({
-            message: "Customer order added successfully and email sent",
-          });
-          const orderNotification = {
-            customerName: customerName,
-            storeName: storeName,
-            orderNumber: orderNumber,
-            merchantId: merchantId,
-          };
-          io.emit("orderNotification", orderNotification);
+            .json({ error: "An error occurred while adding customer order" });
+          return;
         }
-      });
-    }
-  );
+        transporter.sendMail(mailOptions, (error, info) => {
+          if (error) {
+            console.error("Error sending email:", error);
+            res
+              .status(500)
+              .json({ error: "An error occurred while sending the email" });
+          } else {
+            console.log("Email sent:", info.response);
+            res.status(201).json({
+              message: "Customer order added successfully and email sent",
+            });
+            const orderNotification = {
+              customerName: customerName,
+              storeName: storeName,
+              orderNumber: orderNumber,
+              merchantId: merchantId,
+            };
+            io.emit("orderNotification", orderNotification);
+          }
+        });
+      }
+    );
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 });
 
 app.get("/order/:order_number", (req, res) => {

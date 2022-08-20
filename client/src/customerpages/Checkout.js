@@ -26,14 +26,32 @@ const Checkout = () => {
       <p>
         <strong>Total: ${totalAmount.toFixed(2)}</strong>
       </p>
-      <OrderForm />
-      <button
-        onClick={() => {
-          navigate(`/selectedstore/${parameters.id}/${parameters.customer_id}`);
-        }}
-      >
-        Continue Shopping
-      </button>
+      {totalAmount > 0 ? (
+        <div>
+          <OrderForm />
+          <button
+            onClick={() => {
+              navigate(
+                `/selectedstore/${parameters.id}/${parameters.customer_id}`
+              );
+            }}
+          >
+            Continue Shopping
+          </button>
+        </div>
+      ) : (
+        <div>
+          <button
+            onClick={() => {
+              navigate(
+                `/selectedstore/${parameters.id}/${parameters.customer_id}`
+              );
+            }}
+          >
+            Continue Shopping
+          </button>
+        </div>
+      )}
     </div>
   );
 };

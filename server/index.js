@@ -7,6 +7,8 @@ const { Server } = require("socket.io");
 const app = express();
 app.use(cors());
 
+let connectedSocket = null;
+
 const server = http.createServer(app);
 
 const io = new Server(server, {
@@ -21,6 +23,17 @@ io.on("connection", (socket) => {
 
   socket.on("disconnect", () => {
     console.log("User disconnected");
+  });
+
+  if (connectedSocket) {
+    connectedSocket.disconnect(true);
+  }
+
+  connectedSocket = socket;
+
+  socket.on("disconnect", () => {
+    console.log("User disconnected");
+    connectedSocket = null;
   });
 });
 

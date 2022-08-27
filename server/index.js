@@ -484,10 +484,30 @@ app.get("/customerorder/:merchantId", (req, res) => {
         res.status(500).json({
           error: "An error occurred while fetching customer order data",
         });
-        return;
-      }
+      } else {
+        const orderHistory = [];
+        let currentOrderNumber = null;
+        let currentOrderIndex = -1;
 
-      res.status(200).json(results);
+        results.forEach((row) => {
+          if (row.order_number !== currentOrderNumber) {
+            currentOrderNumber = row.order_number;
+            currentOrderIndex++;
+            orderHistory[currentOrderIndex] = {
+              order_number: currentOrderNumber,
+              items: [],
+            };
+          }
+
+          orderHistory[currentOrderIndex].items.push({
+            item_name: row.item_name,
+            item_quantity: row.item_quantity,
+            item_price: row.item_price,
+          });
+        });
+
+        res.status(200).json(orderHistory);
+      }
     }
   );
 });

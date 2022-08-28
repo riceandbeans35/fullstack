@@ -55,9 +55,9 @@ const CustomerOrders = () => {
           <table>
             <thead>
               <tr>
-                <th>Item Name</th>
-                <th>Item Quantity</th>
-                <th>Item Price</th>
+                <th>Item</th>
+                <th>Quantity</th>
+                <th>Price</th>
               </tr>
             </thead>
             <tbody>

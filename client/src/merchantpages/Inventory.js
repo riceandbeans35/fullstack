@@ -8,7 +8,6 @@ import { useSnackbar } from "notistack";
 
 const Inventory = () => {
   const [inventory, setInventory] = useState([]);
-  const [merchantId, setMerchantId] = useState(null);
   const [store, setStore] = useState([]);
   const [editableItemId, setEditableItemId] = useState(null);
   const [editedItemName, setEditedItemName] = useState("");

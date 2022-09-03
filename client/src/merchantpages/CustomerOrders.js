@@ -105,13 +105,16 @@ const CustomerOrders = () => {
         currentPage={currentPage + 1}
         onPageChange={handlePageChange}
       />
-      <button
-        onClick={() => {
-          navigate(`/merchantdashboard/${parameters.merchant_id}`);
-        }}
-      >
-        Back to Dashboard
-      </button>
+      <div className="center-button">
+        <button
+          onClick={() => {
+            navigate(`/merchantdashboard/${parameters.merchant_id}`);
+          }}
+          className="bottom-buttons"
+        >
+          Back to Dashboard
+        </button>
+      </div>
     </div>
   );
 };

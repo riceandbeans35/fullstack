@@ -1,0 +1,27 @@
+.header {
+  text-align: center;
+}
+
+.column-header {
+  background-color: rgb(240, 220, 181);
+  color: black;
+  text-align: center;
+  padding: 10px 20px;
+  border: 0px solid #000000;
+}
+
+.inventory-table {
+  margin: 0 auto;
+  border: 1px solid #ccc;
+}
+
+.table-cell {
+  border-top: 1px solid #ccc;
+
+  text-align: center;
+  padding: 10px 20px;
+}
+
+table {
+  border-collapse: collapse;
+}

@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import MerchantNavbar from "../components/MerchantNavbar";
 import { io } from "socket.io-client";
 import { useSnackbar } from "notistack";
+import "../styles/Inventory.css";
+import "../styles/Buttons.css";
 
 const Inventory = () => {
   const [inventory, setInventory] = useState([]);
@@ -117,27 +119,27 @@ const Inventory = () => {
   };
 
   return (
-    <div className="inventory-page">
+    <div>
       <MerchantNavbar />
       {store.map((store) => (
         <ul key={store.id}>
-          <h2>{store.store}</h2>
+          <h2 className="header">{store.store} - Inventory Management</h2>
         </ul>
       ))}
 
-      <table>
+      <table className="inventory-table">
         <thead>
           <tr>
-            <th>Item</th>
-            <th>Price</th>
-            <th>Quantity</th>
-            <th>Actions</th>
+            <th className="column-header">Item</th>
+            <th className="column-header">Price</th>
+            <th className="column-header">Quantity</th>
+            <th className="column-header">Actions</th>
           </tr>
         </thead>
         <tbody>
           {inventory.map((item) => (
             <tr key={item.inventory_id}>
-              <td>
+              <td className="table-cell">
                 {editableItemId === item.inventory_id ? (
                   <input
                     type="text"
@@ -148,7 +150,7 @@ const Inventory = () => {
                   item.item_name
                 )}
               </td>
-              <td>
+              <td className="table-cell">
                 {editableItemId === item.inventory_id ? (
                   <input
                     type="number"
@@ -162,7 +164,7 @@ const Inventory = () => {
                   ""
                 )}
               </td>
-              <td>
+              <td className="table-cell">
                 {editableItemId === item.inventory_id ? (
                   <input
                     type="number"
@@ -176,10 +178,15 @@ const Inventory = () => {
               <td>
                 {editableItemId === item.inventory_id ? (
                   <>
-                    <button onClick={() => handleSaveItem(item.inventory_id)}>
+                    <button
+                      onClick={() => handleSaveItem(item.inventory_id)}
+                      className="button"
+                    >
                       Save
                     </button>
-                    <button onClick={handleCancelEdit}>Cancel</button>
+                    <button onClick={handleCancelEdit} className="button">
+                      Cancel
+                    </button>
                   </>
                 ) : (
                   <>
@@ -192,10 +199,14 @@ const Inventory = () => {
                           item.item_quantity
                         )
                       }
+                      className="button"
                     >
                       Edit
                     </button>
-                    <button onClick={() => handleRemoveItem(item.inventory_id)}>
+                    <button
+                      onClick={() => handleRemoveItem(item.inventory_id)}
+                      className="button"
+                    >
                       Remove
                     </button>
                   </>
@@ -205,14 +216,19 @@ const Inventory = () => {
           ))}
         </tbody>
       </table>
-      <button onClick={handleAddItem}>Add Item</button>
-      <button
-        onClick={() => {
-          navigate(`/merchantdashboard/${id}`);
-        }}
-      >
-        Back to Dashboard
-      </button>
+      <div className="center-buttons">
+        <button
+          onClick={() => {
+            navigate(`/merchantdashboard/${id}`);
+          }}
+          className="bottom-buttons"
+        >
+          Back to Dashboard
+        </button>
+        <button onClick={handleAddItem} className="bottom-buttons">
+          Add Item
+        </button>
+      </div>
     </div>
   );
 };

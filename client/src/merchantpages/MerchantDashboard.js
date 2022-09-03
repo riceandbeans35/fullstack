@@ -3,6 +3,9 @@ import { Link, useParams } from "react-router-dom";
 import MerchantNavbar from "../components/MerchantNavbar";
 import { io } from "socket.io-client";
 import { useSnackbar } from "notistack";
+import inventory from "../assets/inventory.jpeg";
+import orders from "../assets/order.png";
+import "../styles/MerchantDashboard.css";
 
 const MerchantDashboard = () => {
   const [merchantId, setMerchantId] = useState(null);
@@ -33,15 +36,29 @@ const MerchantDashboard = () => {
   return (
     <div>
       <MerchantNavbar />
-      <h2>Merchant Dashboard</h2>
-      <ul>
-        <li>
-          <Link to={`/inventory/${merchantId}`}>Inventory</Link>
-        </li>
-        <li>
-          <Link to={`/customerorders/${merchantId}`}>Customer Orders</Link>
-        </li>
-      </ul>
+      <h2 className="header">Merchant Dashboard</h2>
+      <div className="card-container">
+        <div className="card">
+          <Link to={`/inventory/${merchantId}`} className="card-link">
+            <img src={inventory} alt="Inventory" className="card-image" />
+            <div className="card-description">
+              <p>
+                <strong>Manage and View Inventory</strong>
+              </p>
+            </div>
+          </Link>
+        </div>
+        <div className="card">
+          <Link to={`/customerorders/${merchantId}`} className="card-link">
+            <img src={orders} alt="Orders" className="card-image" />
+            <div className="card-description">
+              <p>
+                <strong>View Orders</strong>
+              </p>
+            </div>
+          </Link>
+        </div>
+      </div>
     </div>
   );
 };

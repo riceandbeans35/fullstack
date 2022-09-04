@@ -68,24 +68,24 @@ const CustomerOrders = () => {
   return (
     <div>
       <MerchantNavbar />
-      <h2>Customer Orders</h2>
+      <h2 className="header">Customer Orders</h2>
       {currentOrders.map((order, index) => (
         <div key={order.order_number} className="order-list">
-          <h3>Order Number: {order.order_number}</h3>
-          <table>
+          <h3 className="header">Order Number: {order.order_number}</h3>
+          <table className="inventory-table">
             <thead>
               <tr>
-                <th>Item</th>
-                <th>Quantity</th>
-                <th>Price</th>
+                <th className="column-header">Item</th>
+                <th className="column-header">Quantity</th>
+                <th className="column-header">Price</th>
               </tr>
             </thead>
             <tbody>
               {order.items.map((item) => (
                 <tr key={item.item_name}>
-                  <td>{item.item_name}</td>
-                  <td>{item.item_quantity}</td>
-                  <td>${item.item_price}</td>
+                  <td className="table-cell">{item.item_name}</td>
+                  <td className="table-cell">{item.item_quantity}</td>
+                  <td className="table-cell">${item.item_price}</td>
                 </tr>
               ))}
               <tr className="subtotal-text">

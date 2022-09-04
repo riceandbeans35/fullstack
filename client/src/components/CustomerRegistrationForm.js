@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import Axios from "axios";
 import "../styles/RegistrationForm.css";
+import "../styles/LandingPage.css";
+import "../styles/Buttons.css";
 
 function CustomerRegistrationForm() {
   const [name, setName] = useState("");
@@ -48,7 +50,7 @@ function CustomerRegistrationForm() {
   };
 
   return (
-    <div>
+    <div className="login-registration-box">
       <h2>Customer Registration</h2>
       <div className="form-container">
         <div className="form-group">
@@ -87,7 +89,12 @@ function CustomerRegistrationForm() {
           {errors.password && <div className="error">{errors.password}</div>}
         </div>
       </div>
-      <button onClick={sendCustomerDataToServer}>Register</button>
+      <button
+        onClick={sendCustomerDataToServer}
+        className="landing-page-button"
+      >
+        Register
+      </button>
     </div>
   );
 }

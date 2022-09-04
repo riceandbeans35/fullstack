@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import Axios from "axios";
 import { useNavigate } from "react-router-dom";
+import "../styles/LandingPage.css";
+import "../styles/Buttons.css";
 
 const MerchantLogin = ({ onLogin }) => {
   const [email, setEmail] = useState("");
@@ -32,7 +34,7 @@ const MerchantLogin = ({ onLogin }) => {
   };
 
   return (
-    <div>
+    <div className="login-registration-box">
       <h2>Merchant Login</h2>
       <div>
         <div className="form-group">
@@ -62,6 +64,7 @@ const MerchantLogin = ({ onLogin }) => {
         onClick={() => {
           sendLoginDataToServer();
         }}
+        className="landing-page-button"
       >
         Login
       </button>

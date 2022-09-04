@@ -7,7 +7,32 @@
   border-radius: 10px;
 }
 
+.landing-page-button {
+  background-color: rgb(255, 252, 241);
+  color: rgb(0, 0, 0);
+  padding: 5px 10px;
+  border: 1px solid black;
+  cursor: pointer;
+}
+
+.bottom-landing-page-buttons {
+  background-color: rgb(255, 252, 241);
+  color: rgb(0, 0, 0);
+  padding: 5px 10px;
+  border: 1px solid black;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
 .button:hover {
+  background-color: rgb(240, 220, 181);
+}
+
+.login-button:hover {
+  background-color: rgb(240, 220, 181);
+}
+
+.bottom-landing-page-buttons:hover {
   background-color: rgb(240, 220, 181);
 }
 

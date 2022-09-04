@@ -7,7 +7,6 @@ import CustomerLogin from "../components/CustomerLogin";
 import LandingPageNavbar from "../components/LandingPageNavbar";
 import "../styles/LandingPage.css";
 import "../styles/Buttons.css";
-import "../styles/Body.css";
 
 const LandingPage = () => {
   const [activeComponent, setActiveComponent] = useState("customerLogin");

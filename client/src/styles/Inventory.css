@@ -17,7 +17,7 @@
 
 .table-cell {
   border-top: 1px solid #ccc;
-
+  background-color: white;
   text-align: center;
   padding: 10px 20px;
 }

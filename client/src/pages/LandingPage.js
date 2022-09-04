@@ -7,6 +7,7 @@ import CustomerLogin from "../components/CustomerLogin";
 import LandingPageNavbar from "../components/LandingPageNavbar";
 import "../styles/LandingPage.css";
 import "../styles/Buttons.css";
+import "../styles/Body.css";
 
 const LandingPage = () => {
   const [activeComponent, setActiveComponent] = useState("customerLogin");
@@ -27,10 +28,10 @@ const LandingPage = () => {
   };
 
   return (
-    <div className="landing-page-container">
+    <div className="body">
       <LandingPageNavbar />
       <div>
-        <div>
+        <div className="page-background">
           <div className="customer-section">{renderComponent()}</div>
           <div className="customer-section">
             <button

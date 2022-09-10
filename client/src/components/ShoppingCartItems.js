@@ -1,10 +1,11 @@
 import React from "react";
+import "../styles/Checkout.css";
 
 const ShoppingCartItems = ({ item }) => {
   const subtotal = item.item_price * item.quantity;
 
   return (
-    <div>
+    <div className="card">
       <p>
         <strong> Item: {item.item_name} </strong>
       </p>

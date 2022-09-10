@@ -5,6 +5,7 @@ import OrderForm from "../components/OrderForm";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import CustomerNavbar from "../components/CustomerNavbar";
+import "../styles/Buttons.css";
 
 const Checkout = () => {
   const { cart } = useSelector((state) => state);
@@ -19,7 +20,7 @@ const Checkout = () => {
   return (
     <div className="checkout-page">
       <CustomerNavbar />
-      <h2>Checkout</h2>
+      <h2 className="center">Checkout</h2>
       {cart.map((item) => {
         return <ShoppingCartItems key={item.inventory_id} item={item} />;
       })}
@@ -27,17 +28,18 @@ const Checkout = () => {
         <strong>Total: ${totalAmount.toFixed(2)}</strong>
       </p>
       {totalAmount > 0 ? (
-        <div>
-          <OrderForm />
+        <div className="bottom-store-buttons">
           <button
             onClick={() => {
               navigate(
                 `/selectedstore/${parameters.id}/${parameters.customer_id}`
               );
             }}
+            className="bottom-store-checkout-button"
           >
             Continue Shopping
           </button>
+          <OrderForm />
         </div>
       ) : (
         <div>

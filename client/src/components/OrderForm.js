@@ -81,6 +81,7 @@ const OrderForm = () => {
   return (
     <div>
       <button
+        className="bottom-store-checkout-button"
         onClick={() => {
           submitOrder();
         }}

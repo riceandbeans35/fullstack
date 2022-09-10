@@ -54,6 +54,7 @@ const OrderConfirmation = () => {
           navigate(`/storelist/${parameters.customer_id}`);
           handleReloadPage();
         }}
+        className=" store-button"
       >
         Back to Store List
       </button>

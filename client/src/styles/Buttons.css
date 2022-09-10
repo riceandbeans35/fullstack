@@ -15,6 +15,15 @@
   cursor: pointer;
 }
 
+.store-button {
+  background-color: rgb(255, 252, 241);
+  color: rgb(0, 0, 0);
+  padding: 5px 10px;
+  border: 1px solid black;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
 .bottom-landing-page-buttons {
   background-color: rgb(255, 252, 241);
   color: rgb(0, 0, 0);
@@ -22,6 +31,38 @@
   border: 1px solid black;
   border-radius: 10px;
   cursor: pointer;
+}
+
+.bottom-store-buttons {
+  background-color: rgb(255, 252, 241);
+  color: rgb(0, 0, 0);
+  padding: 5px 20px;
+  border: 1px solid black;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.bottom-store-checkout-button {
+  background-color: rgb(255, 252, 241);
+  color: rgb(0, 0, 0);
+  padding: 5px 20px;
+  border: 1px solid black;
+  border-radius: 10px;
+  cursor: pointer;
+  grid-column: 2;
+}
+
+.bottom-buttons {
+  background-color: rgb(255, 252, 241);
+  color: rgb(0, 0, 0);
+  padding: 5px 25px;
+  border: 1px solid black;
+  border-radius: 10px;
+  cursor: pointer;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 30px;
 }
 
 .button:hover {

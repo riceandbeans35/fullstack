@@ -5,6 +5,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { add, remove } from "../redux/cartSlice";
 import { useNavigate } from "react-router-dom";
 import CustomerNavbar from "../components/CustomerNavbar";
+import CustomPagination from "../components/CustomPagination";
+import "../styles/SelectedStore.css";
+import "../styles/Buttons.css";
 
 const SelectedStore = ({ item }) => {
   const parameters = useParams();
@@ -12,6 +15,9 @@ const SelectedStore = ({ item }) => {
   const [store, setStore] = useState([]);
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart);
+
+  const itemsPerPage = 3;
+  const [currentPage, setCurrentPage] = useState(1);
 
   const navigate = useNavigate();
 
@@ -37,6 +43,11 @@ const SelectedStore = ({ item }) => {
       });
   }, [parameters]);
 
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = items.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(items.length / itemsPerPage);
+
   const handleAddToCart = (item) => {
     const cartItem = cart.find(
       (cartItem) => cartItem.inventory_id === item.inventory_id
@@ -59,6 +70,10 @@ const SelectedStore = ({ item }) => {
     dispatch(remove(item));
   };
 
+  const handlePageChange = (page) => {
+    setCurrentPage(page + 1);
+  };
+
   return (
     <div className="store-page">
       <CustomerNavbar />
@@ -67,9 +82,9 @@ const SelectedStore = ({ item }) => {
           <h2>{store.store}</h2>
         </ul>
       ))}
-      <ul>
-        {items.map((item) => (
-          <ul key={item.inventory_id}>
+      <div>
+        {currentItems.map((item) => (
+          <div className="item" key={item.inventory_id}>
             <p>
               <strong>{item.item_name}</strong>
             </p>
@@ -83,28 +98,49 @@ const SelectedStore = ({ item }) => {
                 )
                 .map((cartItem) => cartItem.quantity)}
             </p>
-            <button onClick={() => handleAddToCart(item)}>Add to Cart</button>
-            <button onClick={() => handleRemoveFromCart(item)}>
+            <button
+              onClick={() => handleAddToCart(item)}
+              className="store-button"
+            >
+              Add to Cart
+            </button>
+            <button
+              onClick={() => handleRemoveFromCart(item)}
+              className="store-button"
+            >
               Remove From Cart
             </button>
-          </ul>
+          </div>
         ))}
-        <button
-          onClick={() => {
-            navigate(`/checkout/${parameters.id}/${parameters.customer_id}`);
-          }}
-        >
-          Checkout
-        </button>
-        <button
-          onClick={() => {
-            navigate(`/storelist/${parameters.customer_id}`);
-            handleReloadPage();
-          }}
-        >
-          Back to Store List
-        </button>
-      </ul>
+
+        <div className="bottom-buttons">
+          <button
+            onClick={() => {
+              navigate(`/storelist/${parameters.customer_id}`);
+              handleReloadPage();
+            }}
+            className="bottom-store-buttons"
+          >
+            Back to Store List
+          </button>
+          <button
+            onClick={() => {
+              navigate(`/checkout/${parameters.id}/${parameters.customer_id}`);
+            }}
+            className="bottom-store-checkout-button"
+          >
+            Checkout
+          </button>
+        </div>
+
+        {totalPages > 1 && (
+          <CustomPagination
+            pageCount={totalPages}
+            currentPage={currentPage}
+            onPageChange={handlePageChange}
+          />
+        )}
+      </div>
     </div>
   );
 };

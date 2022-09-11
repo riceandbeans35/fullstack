@@ -23,16 +23,20 @@ const StoreList = () => {
     <div>
       <CustomerNavbar />
       <h2 className="center">Atlas Stores</h2>
-      <div className="card-container">
+      <div className="storelist-card-container">
         {merchants.map((merchant) => (
-          <div className="card" key={merchant.id}>
+          <div className="storelist-card" key={merchant.id}>
             <Link
               to={`/selectedstore/${merchant.id}/${customerId.id}`}
-              className="card-link"
+              className="storelist-card-link"
               key={merchant.id}
             >
-              <img src={store} alt={merchant.store} className="card-image" />
-              <div className="card-description">
+              <img
+                src={store}
+                alt={merchant.store}
+                className="storelist-card-image"
+              />
+              <div className="storelist-card-description">
                 <p>
                   <strong>{merchant.store}</strong>
                 </p>

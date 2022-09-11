@@ -36,22 +36,29 @@ const MerchantDashboard = () => {
   return (
     <div>
       <MerchantNavbar />
-      <h2 className="header">Merchant Dashboard</h2>
-      <div className="card-container">
-        <div className="card">
-          <Link to={`/inventory/${merchantId}`} className="card-link">
-            <img src={inventory} alt="Inventory" className="card-image" />
-            <div className="card-description">
+      <h2 className="dashboard-header">Merchant Dashboard</h2>
+      <div className="dashboard-card-container">
+        <div className="dashboard-card">
+          <Link to={`/inventory/${merchantId}`} className="dashboard-card-link">
+            <img
+              src={inventory}
+              alt="Inventory"
+              className="dashboard-card-image"
+            />
+            <div className="dashboard-card-description">
               <p>
                 <strong>Manage and View Inventory</strong>
               </p>
             </div>
           </Link>
         </div>
-        <div className="card">
-          <Link to={`/customerorders/${merchantId}`} className="card-link">
-            <img src={orders} alt="Orders" className="card-image" />
-            <div className="card-description">
+        <div className="dashboard-card">
+          <Link
+            to={`/customerorders/${merchantId}`}
+            className="dashboard-card-link"
+          >
+            <img src={orders} alt="Orders" className="dashboard-card-image" />
+            <div className="dashboard-card-description">
               <p>
                 <strong>View Orders</strong>
               </p>

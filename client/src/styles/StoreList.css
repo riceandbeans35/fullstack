@@ -1,11 +1,11 @@
-.card-container {
+.storelist-card-container {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 20px;
 }
 
-.card {
+.storelist-card {
   background-color: #fff;
   border: 1px solid #ddd;
   border-radius: 5px;
@@ -15,21 +15,21 @@
   transition: transform 0.2s ease-in-out;
 }
 
-.card:hover {
+.storelist-card:hover {
   transform: scale(1.05);
 }
 
-.card-link {
+.storelist-card-link {
   text-decoration: none;
   color: #333;
 }
 
-.card-image {
+.storelist-card-image {
   max-width: 100%;
   height: auto;
 }
 
-.card-description {
+.storelist-card-description {
   margin-top: 10px;
   text-align: center;
 }

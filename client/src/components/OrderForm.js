@@ -3,6 +3,7 @@ import Axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
+import "../styles/Buttons.css";
 
 const OrderForm = () => {
   const [customer, setCustomer] = useState([]);
@@ -79,16 +80,14 @@ const OrderForm = () => {
   };
 
   return (
-    <div>
-      <button
-        className="bottom-store-checkout-button"
-        onClick={() => {
-          submitOrder();
-        }}
-      >
-        Submit Order
-      </button>
-    </div>
+    <button
+      onClick={() => {
+        submitOrder();
+      }}
+      className="bottom-store-checkout-button"
+    >
+      Submit Order
+    </button>
   );
 };
 

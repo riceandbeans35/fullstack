@@ -1,8 +1,8 @@
-.header {
+.dashboard-header {
   text-align: center;
 }
 
-.card {
+.dashboard-card {
   border: 1px solid #ccc;
   border-radius: 5px;
   padding: 20px;
@@ -12,11 +12,11 @@
   transition: transform 0.2s;
 }
 
-.card:hover {
+.dashboard-card:hover {
   transform: scale(1.05);
 }
 
-.card-link {
+.dashboard-card-link {
   text-decoration: none;
   color: inherit;
   display: flex;
@@ -29,12 +29,12 @@
   width: 100%;
 }
 
-.card-image {
+.dashboard-card-image {
   width: 100%;
   height: auto;
 }
 
-.card-description {
+.dashboard-card-description {
   text-align: center;
 }
 .order-card-description {
@@ -57,7 +57,7 @@
   flex-direction: column;
 }
 
-.card-container {
+.dashboard-card-container {
   display: flex;
   justify-content: center;
   align-items: center;

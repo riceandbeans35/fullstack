@@ -28,14 +28,14 @@ const Checkout = () => {
         <strong>Total: ${totalAmount.toFixed(2)}</strong>
       </p>
       {totalAmount > 0 ? (
-        <div className="bottom-store-buttons">
+        <div className="bottom-buttons">
           <button
             onClick={() => {
               navigate(
                 `/selectedstore/${parameters.id}/${parameters.customer_id}`
               );
             }}
-            className="bottom-store-checkout-button"
+            className="bottom-store-buttons"
           >
             Continue Shopping
           </button>

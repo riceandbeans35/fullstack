@@ -369,6 +369,15 @@ app.post("/order", async (req, res) => {
       storeName,
     ]);
 
+    orderItems.forEach((item) => {
+      item.subtotal = item.item_price * item.item_quantity;
+    });
+
+    const totalAmount = orderItems.reduce(
+      (total, item) => total + item.subtotal,
+      0
+    );
+
     const updatePromises = orderItems.map((item) => {
       return new Promise((resolve, reject) => {
         const orderedQuantity = item.item_quantity;
@@ -424,6 +433,7 @@ app.post("/order", async (req, res) => {
         )
         .join("")}
     </ul>
+    <p><strong>Total Order Amount: $${totalAmount.toFixed(2)}</strong></p>
     <p> View your order <a href="http://localhost:3000/orderconfirmation/${customerId}/${orderNumber}"> here </a> </p>  
   `,
     };

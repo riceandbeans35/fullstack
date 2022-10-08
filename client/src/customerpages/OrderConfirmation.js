@@ -39,7 +39,7 @@ const OrderConfirmation = () => {
       <h2>Order Confirmation</h2>
       <p>Order Number: {parameters.order_number}</p>
 
-      <h3>Order Details:</h3>
+      <p>Order Details:</p>
       <ul>
         {orderDetails.map((order) => (
           <li key={order.order_number}>
@@ -48,7 +48,9 @@ const OrderConfirmation = () => {
           </li>
         ))}
       </ul>
-      <p>Total Amount: ${totalAmount.toFixed(2)}</p>
+      <p>
+        <strong>Total Amount: ${totalAmount.toFixed(2)}</strong>
+      </p>
       <button
         onClick={() => {
           navigate(`/storelist/${parameters.customer_id}`);

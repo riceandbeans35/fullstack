@@ -423,7 +423,7 @@ app.post("/order", async (req, res) => {
     <p>Thank you for shopping at ${storeName}.</p>
     <p>Details for your order are below: </p>
     <p>Order Number: ${orderNumber}</p>
-    <p><strong>Order Items: </strong></p>
+    <p>Order Items:</p>
     <ul>
       ${orderItems
         .map(

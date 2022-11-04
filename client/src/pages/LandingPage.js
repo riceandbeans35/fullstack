@@ -27,10 +27,10 @@ const LandingPage = () => {
   };
 
   return (
-    <div className="body">
+    <div>
       <LandingPageNavbar />
       <div>
-        <div className="page-background">
+        <div>
           <div className="customer-section">{renderComponent()}</div>
           <div className="customer-section">
             <button

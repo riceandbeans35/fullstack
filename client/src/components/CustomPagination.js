@@ -3,8 +3,6 @@ import "../styles/CustomPagination.css";
 
 const CustomPagination = ({ pageCount, currentPage, onPageChange }) => {
   const pages = Array.from({ length: pageCount }, (_, i) => i + 1);
-  console.log(pageCount);
-  console.log(currentPage);
 
   return (
     <div className="pagination">

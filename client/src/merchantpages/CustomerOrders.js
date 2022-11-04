@@ -25,12 +25,6 @@ const CustomerOrders = () => {
   const endIndex = startIndex + itemsPerPage;
   const currentOrders = orderHistory.slice(startIndex, endIndex);
 
-  const handleNextPage = () => {
-    if (currentPage < totalPages - 1) {
-      setCurrentPage(currentPage + 1);
-    }
-  };
-
   const navigate = useNavigate();
 
   const { enqueueSnackbar } = useSnackbar();
